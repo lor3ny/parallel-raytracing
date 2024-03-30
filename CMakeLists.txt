@@ -11,3 +11,6 @@ file(GLOB SOURCE_FILES
 add_executable(renderer ${SOURCE_FILES})
 
 target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/")
+target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/glm")
+target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/tiny_obj_loader")
+target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/stb")

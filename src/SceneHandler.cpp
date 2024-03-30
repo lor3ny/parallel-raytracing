@@ -1,16 +1,13 @@
 #include "SceneHandler.h"
+#include <cstddef>
 
 SceneHandler::SceneHandler(){
-    this->attrib = nullptr;
-    this->materials = nullptr;
-    this->shapes = nullptr;
     this->scene_id = 0;
 }
 
 SceneHandler::~SceneHandler(){
-    this->attrib = nullptr;
-    this->materials = nullptr;
-    this->shapes = nullptr;
+    this->materials.clear();
+    this->shapes.clear();
     this->scene_id = 0;
 }
 
@@ -33,9 +30,9 @@ int SceneHandler::LoadScene(const string& path, const string& materials_path){
         Log::PrintError(reader.Warning());
     }
 
-    attrib = &reader.GetAttrib();
-    shapes = &reader.GetShapes();
-    materials = &reader.GetMaterials();
+    attrib = reader.GetAttrib();
+    shapes = reader.GetShapes();
+    materials = reader.GetMaterials();
 
     return 0;
 }
