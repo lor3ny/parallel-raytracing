@@ -70,43 +70,41 @@ class Renderer {
 
         Renderer(int width, int height){
             glm::vec3 o = {.0f,.0f,.0f};
-            cam = new Camera(o,-20, width, height);
+            cam = new Camera(o,-10, width, height);
         }
         ~Renderer(){
             delete [] cam;
         }
 
 
-        int intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2){
+        bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist){
             
             auto edge1 = p1-p0;
             auto edge2  = p2-p0;
 
             auto pvec = glm::cross(r.dir, edge2);
             auto det = glm::dot(edge1, pvec);
-
             if(det==0)
-                return 1;
+                return false;
 
             auto idet = 1.0f / det;
             auto tvec = r.o - p0;
             auto u = glm::dot(tvec, pvec) * idet;
-
             if(u<0 || u>1) 
-                return 1;
+                return false;
 
             auto qvec = glm::cross(tvec, edge1);
             auto v = glm::dot(r.dir, qvec) * idet;
-            if(v<0 || v>1)
-                return 1;
+            if(v<0 || u+v>1)
+                return false;
 
             auto t = glm::dot(edge2, qvec) * idet;
             // if( t<r.tmin || t>r.tmax) return 0
 
             // Results
             glm::vec2 uv = {u, v};
-            auto dist = t;
-            return 0;
+            dist = t;
+            return true;
         }
 
 
@@ -137,7 +135,7 @@ class Renderer {
                             float p0x = scene.attrib.vertices[3*size_t(idx0.vertex_index)+0];
                             float p0y = scene.attrib.vertices[3*size_t(idx0.vertex_index)+1];
                             float p0z = scene.attrib.vertices[3*size_t(idx0.vertex_index)+2];
-
+                    
                             float p1x = scene.attrib.vertices[3*size_t(idx1.vertex_index)+0];
                             float p1y = scene.attrib.vertices[3*size_t(idx1.vertex_index)+1];
                             float p1z = scene.attrib.vertices[3*size_t(idx1.vertex_index)+2];
@@ -151,14 +149,14 @@ class Renderer {
                             glm::vec3 p2(p2x,p2y,p2z);
 
                             // For now i take only one color, but maybe next is interpolation between the three vertecies is needed
-
-                            int ret = intersectTriangle(qRay, p0, p1, p2);
+                            float dist;
+                            int ret = intersectTriangle(qRay, p0, p1, p2, dist);
                             tinyobj::real_t r, g, b;
-                            if(ret == 0){
+                            if(ret){
                                 r = scene.attrib.colors[3*size_t(idx0.vertex_index)+0];
                                 g = scene.attrib.colors[3*size_t(idx0.vertex_index)+1];
                                 b = scene.attrib.colors[3*size_t(idx0.vertex_index)+2];
-                                std::cout << g << std::endl;
+                                std::cout << dist << std::endl;
                             } else {
                                 r = .0f; g = .0f; b = .0f;
                             }
