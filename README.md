@@ -2,7 +2,8 @@ Tiny parallel raytracer
 
 ## Dependencies
 
-TIny Obj Loader
+Tiny Obj Loader
+stb_image
 
 ## Requirements
 
