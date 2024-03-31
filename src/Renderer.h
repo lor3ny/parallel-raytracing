@@ -10,6 +10,7 @@
 #include <geometric.hpp>
 #include <glm.hpp>
 #include <iostream>
+#include <ostream>
 
 
 struct Ray{
@@ -70,7 +71,7 @@ class Renderer {
 
         Renderer(int width, int height){
             glm::vec3 o = {.0f,.0f,.0f};
-            cam = new Camera(o,-10, width, height);
+            cam = new Camera(o,1, width, height);
         }
         ~Renderer(){
             delete [] cam;
@@ -79,32 +80,33 @@ class Renderer {
 
         bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist){
             
+            const double EPSILON = 0.000001; // error i think
+
             auto edge1 = p1-p0;
             auto edge2  = p2-p0;
 
             auto pvec = glm::cross(r.dir, edge2);
             auto det = glm::dot(edge1, pvec);
-            if(det==0)
+            if(det > -EPSILON || det < EPSILON)
                 return false;
 
             auto idet = 1.0f / det;
             auto tvec = r.o - p0;
             auto u = glm::dot(tvec, pvec) * idet;
-            if(u<0 || u>1) 
+            if(u < 0.0 || u > 1.0) 
                 return false;
 
             auto qvec = glm::cross(tvec, edge1);
             auto v = glm::dot(r.dir, qvec) * idet;
-            if(v<0 || u+v>1)
+            if(v < 0.0 || u+v > 1.0)
                 return false;
 
             auto t = glm::dot(edge2, qvec) * idet;
-            // if( t<r.tmin || t>r.tmax) return 0
 
             // Results
             glm::vec2 uv = {u, v};
             dist = t;
-            return true;
+            return t > EPSILON;
         }
 
 
@@ -143,6 +145,9 @@ class Renderer {
                             float p2x = scene.attrib.vertices[3*size_t(idx2.vertex_index)+0];
                             float p2y = scene.attrib.vertices[3*size_t(idx2.vertex_index)+1];
                             float p2z = scene.attrib.vertices[3*size_t(idx2.vertex_index)+2];
+
+
+                            // std::cout << p0x << " " << p0y << " " << p0z << std::endl;
 
                             glm::vec3 p0(p0x,p0y,p0z);
                             glm::vec3 p1(p1x,p1y,p1z);
