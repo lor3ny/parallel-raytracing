@@ -3,9 +3,11 @@
 
 #include "Log.h"
 #include "SceneHandler.h"
+#include "exponential.hpp"
 
 
 #include <cstddef>
+#include <cstdlib>
 #include <fwd.hpp>
 #include <geometric.hpp>
 #include <glm.hpp>
@@ -212,17 +214,39 @@ class Renderer {
                             glm::vec3 p1(p1x,p1y,p1z);
                             glm::vec3 p2(p2x,p2y,p2z);
 
-                            // For now i take only one color, but maybe next is interpolation between the three vertecies is needed
                             float dist;
                             bool raycast = intersectTriangle(qRay, p0, p1, p2, dist);
                             if(raycast){
-                                std::cout << idx2.normal_index << std::endl;
-                                if(idx2.normal_index >= 0){
-                                    r = scene.attrib.normals[3*size_t(idx0.vertex_index)+0];
-                                    g = scene.attrib.normals[3*size_t(idx0.vertex_index)+1];
-                                    b = scene.attrib.normals[3*size_t(idx0.vertex_index)+2];
-                                    r = 0, g=1, b=0;
+
+
+                                // VETTORI NORMALI: Non corrispono a quelli realmente presenti nel file .obj, perche`?
+
+                                tinyobj::real_t n0x, n0y, n0z, n1x, n1y, n1z, n2x, n2y, n2z = 0;
+
+                                if(idx0.normal_index >= 0){
+                                    n0x = std::abs(scene.attrib.normals[3*size_t(idx0.vertex_index)+0]);
+                                    n0y = std::abs(scene.attrib.normals[3*size_t(idx0.vertex_index)+1]);
+                                    n0z = std::abs(scene.attrib.normals[3*size_t(idx0.vertex_index)+2]);
                                 }
+
+                                if(idx1.normal_index >= 0){
+                                    n1x = std::abs(scene.attrib.normals[3*size_t(idx1.vertex_index)+0]);
+                                    n1y = std::abs(scene.attrib.normals[3*size_t(idx1.vertex_index)+1]);
+                                    n1z = std::abs(scene.attrib.normals[3*size_t(idx1.vertex_index)+2]);
+                                }
+
+                                if(idx2.normal_index >= 0){
+                                    n2x = scene.attrib.normals[3*size_t(idx2.vertex_index)+0];
+                                    n2y = scene.attrib.normals[3*size_t(idx2.vertex_index)+1];
+                                    n2z = scene.attrib.normals[3*size_t(idx2.vertex_index)+2];
+                                }
+
+                                r = (n0x + n1x + n2x)/glm::sqrt((n0x*n0x+n1x*n1x+n2x*n2x));
+                                g = (n0y + n1y + n2y)/glm::sqrt((n0y*n0y+n1y*n1y+n2y*n2y));
+                                b = (n0z + n1z + n2z)/glm::sqrt((n0z*n0z+n1z*n1z+n2z*n2z));
+
+                                // VETTORI NORMALI
+
                                 faceMaterial = scene.shapes[s].mesh.material_ids[f];
                                 break;
                             }
@@ -237,7 +261,7 @@ class Renderer {
 
 
                     // Material
-                    
+                    /*
                     if(faceMaterial != -1){
                         buffer[(i * cam->GetWidth() + j) * 3 + 0] = scene.materials[faceMaterial].diffuse[0]*255;
                         buffer[(i * cam->GetWidth() + j) * 3 + 1] = scene.materials[faceMaterial].diffuse[1]*255;
@@ -247,15 +271,12 @@ class Renderer {
                         buffer[(i * cam->GetWidth() + j) * 3 + 1] = 0.0;
                         buffer[(i * cam->GetWidth() + j) * 3 + 2] = 0.0;
                     }
+                    */
 
                     // Normal shading
-                    /*
                     buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
                     buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
                     buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
-                    */
-                    
-
 
                 }
             }
