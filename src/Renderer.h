@@ -11,6 +11,7 @@
 #include <glm.hpp>
 #include <iostream>
 #include <ostream>
+#include <vector>
 
 
 struct Ray{
@@ -70,8 +71,8 @@ class Renderer {
         Camera* cam;
 
         Renderer(int width, int height){
-            glm::vec3 o = {.0f,.0f,.0f};
-            cam = new Camera(o,1, width, height);
+            glm::vec3 o = {250.0f,250.0f,-1000.0f};
+            cam = new Camera(o,1000, width, height);
         }
         ~Renderer(){
             delete [] cam;
@@ -87,26 +88,32 @@ class Renderer {
 
             auto pvec = glm::cross(r.dir, edge2);
             auto det = glm::dot(edge1, pvec);
-            if(det > -EPSILON || det < EPSILON)
+            if(det > -EPSILON && det < EPSILON){
+                //std::cout << det << std::endl;
                 return false;
+            }
 
             auto idet = 1.0f / det;
             auto tvec = r.o - p0;
             auto u = glm::dot(tvec, pvec) * idet;
-            if(u < 0.0 || u > 1.0) 
+            if(u < 0.0 || u > 1.0){
+                //Log::Print("u ~ 0");
                 return false;
+            }
 
             auto qvec = glm::cross(tvec, edge1);
             auto v = glm::dot(r.dir, qvec) * idet;
-            if(v < 0.0 || u+v > 1.0)
+            if(v < 0.0 || u+v > 1.0){
+                //Log::Print("u+v ~ 0");
                 return false;
+            }
 
             auto t = glm::dot(edge2, qvec) * idet;
 
             // Results
             glm::vec2 uv = {u, v};
             dist = t;
-            return t > EPSILON;
+            return t > EPSILON; 
         }
 
 
@@ -116,7 +123,57 @@ class Renderer {
 
                     glm::vec3 q = cam->PixelToPoint(j, i);
                     Ray qRay = cam->generateRay(q);
+                    tinyobj::real_t r = 0, g=0, b=0;
+                    int faceMaterial = -1;
+                    bool raycast = false;
 
+                    /*
+                    std::cout << qRay.dir.x << " " << qRay.dir.y << " " << qRay.dir.z << std::endl;
+
+                    glm::vec3 v1(25.0f,0.0f,25.0f);
+                    glm::vec3 v2(25.0f,50.0f,25.0f);
+                    glm::vec3 v3(75.0f,0.0f,25.0f);
+                    glm::vec3 v4(75.0f,50.0f,25.0f);
+
+                    float dist;
+                    bool ret = intersectTriangle(qRay, v1, v2, v3, dist);
+                    tinyobj::real_t r=0.0f, g=0.0f, b=0.0f;
+                    if(ret){
+                        //r = scene.attrib.colors[3*size_t(idx0.vertex_index)+0];
+                        //g = scene.attrib.colors[3*size_t(idx0.vertex_index)+1];
+                        //b = scene.attrib.colors[3*size_t(idx0.vertex_index)+2];
+                        r = 0, g=1, b=1;
+                        std::cout << "tri 1" << std::endl;
+
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
+
+                        continue;
+                    }
+
+                    ret = intersectTriangle(qRay, v2, v3, v4, dist);
+                    if(ret){
+                        //r = scene.attrib.colors[3*size_t(idx0.vertex_index)+0];
+                        //g = scene.attrib.colors[3*size_t(idx0.vertex_index)+1];
+                        //b = scene.attrib.colors[3*size_t(idx0.vertex_index)+2];
+                        r = 0, g=1, b=1;
+                        std::cout << "tri 2" << std::endl;
+
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
+
+                        continue;
+                    }
+
+                    buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
+                    buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
+                    buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
+
+                    */
+
+                    
                     for (size_t s = 0; s < scene.shapes.size(); s++) {
                         
                         size_t index_offset = 0; 
@@ -133,6 +190,8 @@ class Renderer {
                             tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[index_offset + 0];
                             tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[index_offset + 1];
                             tinyobj::index_t idx2 = scene.shapes[s].mesh.indices[index_offset + 2];
+
+                            
 
                             float p0x = scene.attrib.vertices[3*size_t(idx0.vertex_index)+0];
                             float p0y = scene.attrib.vertices[3*size_t(idx0.vertex_index)+1];
@@ -155,26 +214,49 @@ class Renderer {
 
                             // For now i take only one color, but maybe next is interpolation between the three vertecies is needed
                             float dist;
-                            int ret = intersectTriangle(qRay, p0, p1, p2, dist);
-                            tinyobj::real_t r, g, b;
-                            if(ret){
-                                r = scene.attrib.colors[3*size_t(idx0.vertex_index)+0];
-                                g = scene.attrib.colors[3*size_t(idx0.vertex_index)+1];
-                                b = scene.attrib.colors[3*size_t(idx0.vertex_index)+2];
-                                std::cout << dist << std::endl;
-                            } else {
-                                r = .0f; g = .0f; b = .0f;
+                            bool raycast = intersectTriangle(qRay, p0, p1, p2, dist);
+                            if(raycast){
+                                std::cout << idx2.normal_index << std::endl;
+                                if(idx2.normal_index >= 0){
+                                    r = scene.attrib.normals[3*size_t(idx0.vertex_index)+0];
+                                    g = scene.attrib.normals[3*size_t(idx0.vertex_index)+1];
+                                    b = scene.attrib.normals[3*size_t(idx0.vertex_index)+2];
+                                    r = 0, g=1, b=0;
+                                }
+                                faceMaterial = scene.shapes[s].mesh.material_ids[f];
+                                break;
                             }
 
-                            buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
-                            buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
-                            buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
-                        
                             index_offset += fv;
+                        }
 
-                            //Log::Print(fv);
+                        if(raycast){
+                            break;
                         }
                     }
+
+
+                    // Material
+                    
+                    if(faceMaterial != -1){
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = scene.materials[faceMaterial].diffuse[0]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = scene.materials[faceMaterial].diffuse[1]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = scene.materials[faceMaterial].diffuse[2]*255;
+                    } else {
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = 0.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = 0.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = 0.0;
+                    }
+
+                    // Normal shading
+                    /*
+                    buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
+                    buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
+                    buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
+                    */
+                    
+
+
                 }
             }
         }
