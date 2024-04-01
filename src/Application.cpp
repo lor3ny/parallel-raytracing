@@ -25,7 +25,7 @@ int main(){
     Renderer renderer(WIDTH, HEIGHT);
 
     unsigned char* buff = new unsigned char[WIDTH*HEIGHT*3];
-    renderer.Raytrace(buff, scene);
+    renderer.Render(buff, scene);
 
     // Save the image as a PNG file
     stbi_write_png("res.png", WIDTH, HEIGHT, 3, buff, WIDTH*3);
