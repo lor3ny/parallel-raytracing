@@ -33,7 +33,7 @@ int main(){
     // Free the image data
     delete[] buff;
 
-    std::cout << "Image saved successfully!" << std::endl;
+    //std::cout << "Image saved successfully!" << std::endl;
 
     return 0;
 }

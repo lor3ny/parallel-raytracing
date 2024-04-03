@@ -3,11 +3,13 @@
 #include "Log.h"
 #include "SceneHandler.h"
 
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <fwd.hpp>
 #include <geometric.hpp>
 #include <glm.hpp>
+#include <iostream>
 #include <vector>
 
 
@@ -18,10 +20,10 @@ struct Ray{
 };
 
 struct Intersection{
-    bool isNull;
+    bool isNull = true;
     int faceMaterialIdx;
     glm::vec3 faceNormal;
-    float dist;
+    float dist = 0;
 };
 
 
@@ -115,20 +117,19 @@ class Renderer {
             bool raycast = false;
 
             Intersection isec;
-            isec.isNull = true;
 
             for (size_t s = 0; s < scene.shapes.size(); s++) {
-                size_t index_offset = 0; 
+
+                size_t v_index_offset = 0; 
                 for (size_t f = 0; f < scene.shapes[s].mesh.num_face_vertices.size(); f++) {
                     
                     size_t fv = size_t(scene.shapes[s].mesh.num_face_vertices[f]);
                     if(fv != 3)
                         Log::PrintError("Robust Triangulation is not working. Raytracing stopped");          
                     
-                    tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[index_offset + 0];
-                    tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[index_offset + 1];
-                    tinyobj::index_t idx2 = scene.shapes[s].mesh.indices[index_offset + 2];
-
+                    tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[v_index_offset + 0];
+                    tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[v_index_offset + 1];
+                    tinyobj::index_t idx2 = scene.shapes[s].mesh.indices[v_index_offset + 2];
                     
 
                     float p0x = scene.attrib.vertices[3*size_t(idx0.vertex_index)+0];
@@ -147,46 +148,29 @@ class Renderer {
                     glm::vec3 p1(p1x,p1y,p1z);
                     glm::vec3 p2(p2x,p2y,p2z);
 
+                    v_index_offset += fv;
+
                     float dist;
                     bool raycast = intersectTriangle(ray, p0, p1, p2, dist);
                     if(raycast){
 
-                        // VETTORI NORMALI: Non corrispono a quelli realmente presenti nel file .obj, perche`?
-                        /*
-                        tinyobj::real_t n0x, n0y, n0z, n1x, n1y, n1z, n2x, n2y, n2z = 0;
 
-                        if(idx0.normal_index >= 0){
-                            n0x = std::abs(scene.attrib.normals[3*size_t(idx0.vertex_index)+0]);
-                            n0y = std::abs(scene.attrib.normals[3*size_t(idx0.vertex_index)+1]);
-                            n0z = std::abs(scene.attrib.normals[3*size_t(idx0.vertex_index)+2]);
+                        if(dist>isec.dist && isec.dist > 0)
+                            continue;
+
+                        int idxFace = ceil(v_index_offset/6)-1;  // Blender export normals
+                        
+                        if(scene.shapes[s].name == "tall_block"){
+                            std::cout << "palle" << std::endl;
                         }
-
-                        if(idx1.normal_index >= 0){
-                            n1x = std::abs(scene.attrib.normals[3*size_t(idx1.vertex_index)+0]);
-                            n1y = std::abs(scene.attrib.normals[3*size_t(idx1.vertex_index)+1]);
-                            n1z = std::abs(scene.attrib.normals[3*size_t(idx1.vertex_index)+2]);
-                        }
-
-                        if(idx2.normal_index >= 0){
-                            n2x = scene.attrib.normals[3*size_t(idx2.vertex_index)+0];
-                            n2y = scene.attrib.normals[3*size_t(idx2.vertex_index)+1];
-                            n2z = scene.attrib.normals[3*size_t(idx2.vertex_index)+2];
-                        }
-
-                        r = (n0x + n1x + n2x)/glm::sqrt((n0x*n0x+n1x*n1x+n2x*n2x));
-                        g = (n0y + n1y + n2y)/glm::sqrt((n0y*n0y+n1y*n1y+n2y*n2y));
-                        b = (n0z + n1z + n2z)/glm::sqrt((n0z*n0z+n1z*n1z+n2z*n2z));
-                        */
-                        // VETTORI NORMALI
 
                         isec.isNull = false;
                         isec.dist = dist;
-                        isec.faceNormal = glm::vec3(0,0,0);
+                        glm::vec3 norm = glm::vec3(scene.attrib.normals[3*idx0.normal_index+0],scene.attrib.normals[3*idx0.normal_index+1], scene.attrib.normals[3*idx0.normal_index+2]);
+                        isec.faceNormal = norm;
                         isec.faceMaterialIdx = scene.shapes[s].mesh.material_ids[f];
-                        return isec;
+                        break;
                     }
-
-                    index_offset += fv;
                 }
             }
 
@@ -218,7 +202,7 @@ class Renderer {
                     isec = Raytrace(qRay, scene);
 
                     // GENERALIZE IN SHADING FUNCTIONS
-
+                    /*
                     if(!isec.isNull){
                         buffer[(i * cam->GetWidth() + j) * 3 + 0] = scene.materials[isec.faceMaterialIdx].diffuse[0]*255;
                         buffer[(i * cam->GetWidth() + j) * 3 + 1] = scene.materials[isec.faceMaterialIdx].diffuse[1]*255;
@@ -228,7 +212,18 @@ class Renderer {
                         buffer[(i * cam->GetWidth() + j) * 3 + 1] = 0.0;
                         buffer[(i * cam->GetWidth() + j) * 3 + 2] = 0.0;
                     }
+                    */
 
+                    if(!isec.isNull){
+                        //cout << isec.faceNormal.x << " " << isec.faceNormal.y << " " << isec.faceNormal.z << endl;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = abs(isec.faceNormal.x)*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = abs(isec.faceNormal.y)*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = abs(isec.faceNormal.z)*255;
+                    } else {
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = 0.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = 0.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = 0.0;
+                    }
                     // GENERALIZE IN SHADING FUNCTIONS
                 }
             }
