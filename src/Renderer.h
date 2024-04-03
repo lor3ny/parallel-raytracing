@@ -1,16 +1,15 @@
 #pragma once
 
-
 #include "Log.h"
 #include "SceneHandler.h"
 
-
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <fwd.hpp>
 #include <geometric.hpp>
 #include <glm.hpp>
 #include <iostream>
-#include <ostream>
 #include <vector>
 
 
@@ -18,6 +17,13 @@ struct Ray{
     glm::vec3 o; // origin
     glm::vec3 dir; // direction
     glm::vec3 auxPoint;
+};
+
+struct Intersection{
+    bool isNull = true;
+    int faceMaterialIdx;
+    glm::vec3 faceNormal;
+    float dist = 0;
 };
 
 
@@ -66,18 +72,7 @@ class Camera {
 class Renderer {
 
     private:
-
-    public: 
         Camera* cam;
-
-        Renderer(int width, int height){
-            glm::vec3 o = {250.0f,250.0f,-1000.0f};
-            cam = new Camera(o,1000, width, height);
-        }
-        ~Renderer(){
-            delete [] cam;
-        }
-
 
         bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist){
             
@@ -116,147 +111,116 @@ class Renderer {
             return t > EPSILON; 
         }
 
+        Intersection Raytrace(Ray& ray, SceneHandler& scene){
 
-        void Raytrace(unsigned char* buffer, SceneHandler scene){
+            int faceMaterial = -1;
+            bool raycast = false;
+
+            Intersection isec;
+
+            for (size_t s = 0; s < scene.shapes.size(); s++) {
+
+                size_t v_index_offset = 0; 
+                for (size_t f = 0; f < scene.shapes[s].mesh.num_face_vertices.size(); f++) {
+                    
+                    size_t fv = size_t(scene.shapes[s].mesh.num_face_vertices[f]);
+                    if(fv != 3)
+                        Log::PrintError("Robust Triangulation is not working. Raytracing stopped");          
+                    
+                    tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[v_index_offset + 0];
+                    tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[v_index_offset + 1];
+                    tinyobj::index_t idx2 = scene.shapes[s].mesh.indices[v_index_offset + 2];
+                    
+
+                    float p0x = scene.attrib.vertices[3*size_t(idx0.vertex_index)+0];
+                    float p0y = scene.attrib.vertices[3*size_t(idx0.vertex_index)+1];
+                    float p0z = scene.attrib.vertices[3*size_t(idx0.vertex_index)+2];
+            
+                    float p1x = scene.attrib.vertices[3*size_t(idx1.vertex_index)+0];
+                    float p1y = scene.attrib.vertices[3*size_t(idx1.vertex_index)+1];
+                    float p1z = scene.attrib.vertices[3*size_t(idx1.vertex_index)+2];
+
+                    float p2x = scene.attrib.vertices[3*size_t(idx2.vertex_index)+0];
+                    float p2y = scene.attrib.vertices[3*size_t(idx2.vertex_index)+1];
+                    float p2z = scene.attrib.vertices[3*size_t(idx2.vertex_index)+2];
+
+                    glm::vec3 p0(p0x,p0y,p0z);
+                    glm::vec3 p1(p1x,p1y,p1z);
+                    glm::vec3 p2(p2x,p2y,p2z);
+
+                    v_index_offset += fv;
+
+                    float dist;
+                    bool raycast = intersectTriangle(ray, p0, p1, p2, dist);
+                    if(raycast){
+
+                        if(dist>isec.dist && isec.dist > 0)
+                            continue;
+
+                        // Maybe a merge of idx0.normal, idx1.normal and idx2.normal
+                        isec.isNull = false;
+                        isec.dist = dist;
+                        glm::vec3 norm = glm::vec3(scene.attrib.normals[3*idx0.normal_index+0],scene.attrib.normals[3*idx0.normal_index+1], scene.attrib.normals[3*idx0.normal_index+2]);
+                        isec.faceNormal = norm;
+                        isec.faceMaterialIdx = scene.shapes[s].mesh.material_ids[f];
+                    }
+                }
+            }
+
+            return isec;
+        }
+
+    public: 
+
+        // Generalize the constructor with camera data
+
+        Renderer(int width, int height){
+            glm::vec3 o = {250.0f,250.0f,-1000.0f};
+            cam = new Camera(o,1000, width, height);
+        }
+        ~Renderer(){
+            delete [] cam;
+        }
+
+
+        void Render(unsigned char* buffer, SceneHandler& scene){
             for(int i = 0; i < cam->GetHeight(); i++){
                 for(int j = 0; j < cam->GetWidth(); j++){
 
                     glm::vec3 q = cam->PixelToPoint(j, i);
                     Ray qRay = cam->generateRay(q);
                     tinyobj::real_t r = 0, g=0, b=0;
-                    int faceMaterial = -1;
-                    bool raycast = false;
 
+                    Intersection isec;
+                    isec = Raytrace(qRay, scene);
+
+                    // GENERALIZE IN SHADING FUNCTIONS
                     /*
-                    std::cout << qRay.dir.x << " " << qRay.dir.y << " " << qRay.dir.z << std::endl;
-
-                    glm::vec3 v1(25.0f,0.0f,25.0f);
-                    glm::vec3 v2(25.0f,50.0f,25.0f);
-                    glm::vec3 v3(75.0f,0.0f,25.0f);
-                    glm::vec3 v4(75.0f,50.0f,25.0f);
-
-                    float dist;
-                    bool ret = intersectTriangle(qRay, v1, v2, v3, dist);
-                    tinyobj::real_t r=0.0f, g=0.0f, b=0.0f;
-                    if(ret){
-                        //r = scene.attrib.colors[3*size_t(idx0.vertex_index)+0];
-                        //g = scene.attrib.colors[3*size_t(idx0.vertex_index)+1];
-                        //b = scene.attrib.colors[3*size_t(idx0.vertex_index)+2];
-                        r = 0, g=1, b=1;
-                        std::cout << "tri 1" << std::endl;
-
-                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
-
-                        continue;
-                    }
-
-                    ret = intersectTriangle(qRay, v2, v3, v4, dist);
-                    if(ret){
-                        //r = scene.attrib.colors[3*size_t(idx0.vertex_index)+0];
-                        //g = scene.attrib.colors[3*size_t(idx0.vertex_index)+1];
-                        //b = scene.attrib.colors[3*size_t(idx0.vertex_index)+2];
-                        r = 0, g=1, b=1;
-                        std::cout << "tri 2" << std::endl;
-
-                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
-
-                        continue;
-                    }
-
-                    buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
-                    buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
-                    buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
-
-                    */
-
-                    
-                    for (size_t s = 0; s < scene.shapes.size(); s++) {
-                        
-                        size_t index_offset = 0; 
-                        for (size_t f = 0; f < scene.shapes[s].mesh.num_face_vertices.size(); f++) {
-                            
-                            size_t fv = size_t(scene.shapes[s].mesh.num_face_vertices[f]);
-                            if(fv != 3)
-                                Log::PrintError("Robust Triangulation is not working. Raytracing stopped");       
-
-                            // VERTEX 0: scene.shapes[s].mesh.num_face_vertices[0]
-                            // VERTEX 1: scene.shapes[s].mesh.num_face_vertices[1]
-                            // VERTEX 2: scene.shapes[s].mesh.num_face_vertices[2]        
-                            
-                            tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[index_offset + 0];
-                            tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[index_offset + 1];
-                            tinyobj::index_t idx2 = scene.shapes[s].mesh.indices[index_offset + 2];
-
-                            
-
-                            float p0x = scene.attrib.vertices[3*size_t(idx0.vertex_index)+0];
-                            float p0y = scene.attrib.vertices[3*size_t(idx0.vertex_index)+1];
-                            float p0z = scene.attrib.vertices[3*size_t(idx0.vertex_index)+2];
-                    
-                            float p1x = scene.attrib.vertices[3*size_t(idx1.vertex_index)+0];
-                            float p1y = scene.attrib.vertices[3*size_t(idx1.vertex_index)+1];
-                            float p1z = scene.attrib.vertices[3*size_t(idx1.vertex_index)+2];
-
-                            float p2x = scene.attrib.vertices[3*size_t(idx2.vertex_index)+0];
-                            float p2y = scene.attrib.vertices[3*size_t(idx2.vertex_index)+1];
-                            float p2z = scene.attrib.vertices[3*size_t(idx2.vertex_index)+2];
-
-
-                            // std::cout << p0x << " " << p0y << " " << p0z << std::endl;
-
-                            glm::vec3 p0(p0x,p0y,p0z);
-                            glm::vec3 p1(p1x,p1y,p1z);
-                            glm::vec3 p2(p2x,p2y,p2z);
-
-                            // For now i take only one color, but maybe next is interpolation between the three vertecies is needed
-                            float dist;
-                            bool raycast = intersectTriangle(qRay, p0, p1, p2, dist);
-                            if(raycast){
-                                std::cout << idx2.normal_index << std::endl;
-                                if(idx2.normal_index >= 0){
-                                    r = scene.attrib.normals[3*size_t(idx0.vertex_index)+0];
-                                    g = scene.attrib.normals[3*size_t(idx0.vertex_index)+1];
-                                    b = scene.attrib.normals[3*size_t(idx0.vertex_index)+2];
-                                    r = 0, g=1, b=0;
-                                }
-                                faceMaterial = scene.shapes[s].mesh.material_ids[f];
-                                break;
-                            }
-
-                            index_offset += fv;
-                        }
-
-                        if(raycast){
-                            break;
-                        }
-                    }
-
-
-                    // Material
-                    
-                    if(faceMaterial != -1){
-                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = scene.materials[faceMaterial].diffuse[0]*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = scene.materials[faceMaterial].diffuse[1]*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = scene.materials[faceMaterial].diffuse[2]*255;
+                    if(!isec.isNull){
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = scene.materials[isec.faceMaterialIdx].diffuse[0]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = scene.materials[isec.faceMaterialIdx].diffuse[1]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = scene.materials[isec.faceMaterialIdx].diffuse[2]*255;
                     } else {
                         buffer[(i * cam->GetWidth() + j) * 3 + 0] = 0.0;
                         buffer[(i * cam->GetWidth() + j) * 3 + 1] = 0.0;
                         buffer[(i * cam->GetWidth() + j) * 3 + 2] = 0.0;
                     }
-
-                    // Normal shading
-                    /*
-                    buffer[(i * cam->GetWidth() + j) * 3 + 0] = r*255;
-                    buffer[(i * cam->GetWidth() + j) * 3 + 1] = g*255;
-                    buffer[(i * cam->GetWidth() + j) * 3 + 2] = b*255;
                     */
-                    
 
+                    if(!isec.isNull){
+                        //cout << isec.faceNormal.x << " " << isec.faceNormal.y << " " << isec.faceNormal.z << endl;
 
+                        auto shade = glm::dot(isec.faceNormal, -qRay.dir);
+
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = shade*scene.materials[isec.faceMaterialIdx].diffuse[0]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = shade*scene.materials[isec.faceMaterialIdx].diffuse[1]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = shade*scene.materials[isec.faceMaterialIdx].diffuse[2]*255;
+                    } else {
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = 0.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = 50.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = 100;
+                    }
+                    // GENERALIZE IN SHADING FUNCTIONS
                 }
             }
         }
