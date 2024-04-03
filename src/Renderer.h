@@ -154,22 +154,15 @@ class Renderer {
                     bool raycast = intersectTriangle(ray, p0, p1, p2, dist);
                     if(raycast){
 
-
                         if(dist>isec.dist && isec.dist > 0)
                             continue;
 
-                        int idxFace = ceil(v_index_offset/6)-1;  // Blender export normals
-                        
-                        if(scene.shapes[s].name == "tall_block"){
-                            std::cout << "palle" << std::endl;
-                        }
-
+                        // Maybe a merge of idx0.normal, idx1.normal and idx2.normal
                         isec.isNull = false;
                         isec.dist = dist;
                         glm::vec3 norm = glm::vec3(scene.attrib.normals[3*idx0.normal_index+0],scene.attrib.normals[3*idx0.normal_index+1], scene.attrib.normals[3*idx0.normal_index+2]);
                         isec.faceNormal = norm;
                         isec.faceMaterialIdx = scene.shapes[s].mesh.material_ids[f];
-                        break;
                     }
                 }
             }
@@ -216,13 +209,16 @@ class Renderer {
 
                     if(!isec.isNull){
                         //cout << isec.faceNormal.x << " " << isec.faceNormal.y << " " << isec.faceNormal.z << endl;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = abs(isec.faceNormal.x)*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = abs(isec.faceNormal.y)*255;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = abs(isec.faceNormal.z)*255;
+
+                        auto shade = glm::dot(isec.faceNormal, -qRay.dir);
+
+                        buffer[(i * cam->GetWidth() + j) * 3 + 0] = shade*scene.materials[isec.faceMaterialIdx].diffuse[0]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = shade*scene.materials[isec.faceMaterialIdx].diffuse[1]*255;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = shade*scene.materials[isec.faceMaterialIdx].diffuse[2]*255;
                     } else {
                         buffer[(i * cam->GetWidth() + j) * 3 + 0] = 0.0;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = 0.0;
-                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = 0.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 1] = 50.0;
+                        buffer[(i * cam->GetWidth() + j) * 3 + 2] = 100;
                     }
                     // GENERALIZE IN SHADING FUNCTIONS
                 }
