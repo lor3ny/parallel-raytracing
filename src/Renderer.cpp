@@ -1,0 +1,168 @@
+#include "Renderer.h"
+#include "fwd.hpp"
+#include <cmath>
+
+
+// CAMERA CLASS
+
+glm::vec3 Camera::PixelToPoint(int i, int j){
+    float u = (i+0.5f)/frameWidth;
+    float v = (j+0.5f)/frameHeight;
+
+    glm::vec3 point;
+
+    point = origin + glm::vec3((u-0.5)*frameWidth, -(v-0.5)*frameHeight, frameDistance);
+
+    return point;
+}
+
+Ray Camera::generateRay(glm::vec3& point){
+
+    Ray tmpRay;
+    tmpRay.o = this->origin;
+    tmpRay.dir = (point - tmpRay.o) / glm::distance(point, origin);
+    return tmpRay;
+}
+
+
+// RENDERER CLASS
+
+
+bool Renderer::intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist){
+    
+    const double EPSILON = 0.000001; // error i think
+
+    auto edge1 = p1-p0;
+    auto edge2  = p2-p0;
+
+    auto pvec = glm::cross(r.dir, edge2);
+    auto det = glm::dot(edge1, pvec);
+    if(det > -EPSILON && det < EPSILON){
+        //std::cout << det << std::endl;
+        return false;
+    }
+
+    auto idet = 1.0f / det;
+    auto tvec = r.o - p0;
+    auto u = glm::dot(tvec, pvec) * idet;
+    if(u < 0.0 || u > 1.0){
+        //Log::Print("u ~ 0");
+        return false;
+    }
+
+    auto qvec = glm::cross(tvec, edge1);
+    auto v = glm::dot(r.dir, qvec) * idet;
+    if(v < 0.0 || u+v > 1.0){
+        //Log::Print("u+v ~ 0");
+        return false;
+    }
+
+    auto t = glm::dot(edge2, qvec) * idet;
+
+    // Must return the position of collision
+    glm::vec2 uv = {u, v};
+    dist = t;
+    return t > EPSILON; 
+}
+
+Intersection Renderer::SceneRaycast(const SceneHandler& scene, Ray& r){
+    
+    Intersection isec;
+    isec.hasHit = false;
+
+    for (size_t s = 0; s < scene.shapes.size(); s++) {
+
+        size_t v_index_offset = 0; 
+        for (size_t f = 0; f < scene.shapes[s].mesh.num_face_vertices.size(); f++) {
+            
+            size_t fv = size_t(scene.shapes[s].mesh.num_face_vertices[f]);
+            if(fv != 3)
+                Log::PrintError("Robust Triangulation is not working. Raytracing stopped");          
+            
+            tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[v_index_offset + 0];
+            tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[v_index_offset + 1];
+            tinyobj::index_t idx2 = scene.shapes[s].mesh.indices[v_index_offset + 2];
+            
+
+            float p0x = scene.attrib.vertices[3*size_t(idx0.vertex_index)+0];
+            float p0y = scene.attrib.vertices[3*size_t(idx0.vertex_index)+1];
+            float p0z = scene.attrib.vertices[3*size_t(idx0.vertex_index)+2];
+    
+            float p1x = scene.attrib.vertices[3*size_t(idx1.vertex_index)+0];
+            float p1y = scene.attrib.vertices[3*size_t(idx1.vertex_index)+1];
+            float p1z = scene.attrib.vertices[3*size_t(idx1.vertex_index)+2];
+
+            float p2x = scene.attrib.vertices[3*size_t(idx2.vertex_index)+0];
+            float p2y = scene.attrib.vertices[3*size_t(idx2.vertex_index)+1];
+            float p2z = scene.attrib.vertices[3*size_t(idx2.vertex_index)+2];
+
+            glm::vec3 p0(p0x,p0y,p0z);
+            glm::vec3 p1(p1x,p1y,p1z);
+            glm::vec3 p2(p2x,p2y,p2z);
+
+            v_index_offset += fv;
+
+            float dist;
+            bool rayHit = intersectTriangle(r, p0, p1, p2, dist);
+
+            if(dist>isec.dist && isec.dist > 0)
+                    continue;
+
+            isec.hasHit = true;
+            isec.dist = dist;
+            isec.normal = glm::vec3(scene.attrib.normals[3*idx0.normal_index+0],scene.attrib.normals[3*idx0.normal_index+1], scene.attrib.normals[3*idx0.normal_index+2]);
+            isec.materialIdx = scene.shapes[s].mesh.material_ids[f];
+        }
+    }
+
+    return isec;
+}
+
+glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
+
+    Intersection hit = SceneRaycast(scene, ray);
+    if(!hit.hasHit)
+        return glm::vec3{0,0,0};
+
+    auto color = glm::vec3{scene.materials[hit.materialIdx].diffuse[0],
+                                scene.materials[hit.materialIdx].diffuse[1],
+                                scene.materials[hit.materialIdx].diffuse[2]};
+    auto radiance = glm::vec3{scene.materials[hit.materialIdx].emission[0],
+                                scene.materials[hit.materialIdx].emission[1],
+                                scene.materials[hit.materialIdx].emission[2]};
+
+    //std::cout << hit.normal.x << " " << hit.normal.y << " " << hit.normal.z << endl;
+
+    return color;
+    
+    if(bounce >= maxBounces)
+        return radiance;
+
+
+    glm::vec3 incoming = {0,0,0};
+    glm::vec3 origin ={0,0,0};
+
+    Ray newRay = {origin, incoming};
+
+    radiance += (2 * (float) M_PI) * color / (float) M_PI * Shade(scene, newRay, bounce+1) * glm::dot(hit.normal, incoming); 
+
+    return radiance;
+}
+
+
+void Renderer::Render(unsigned char* buffer, SceneHandler& scene){
+    for(int i = 0; i < cam->GetHeight(); i++){
+        for(int j = 0; j < cam->GetWidth(); j++){
+
+            glm::vec3 q = cam->PixelToPoint(j, i);
+            Ray qRay = cam->generateRay(q);
+
+            auto pixelValue = Shade(scene, qRay, 0);
+
+            buffer[(i * cam->GetWidth() + j) * 3 + 0] = pixelValue.x * 255;
+            buffer[(i * cam->GetWidth() + j) * 3 + 1] = pixelValue.y * 255;
+            buffer[(i * cam->GetWidth() + j) * 3 + 2] = pixelValue.z * 255;
+
+        }
+    }
+}
