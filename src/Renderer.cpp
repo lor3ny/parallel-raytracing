@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "fwd.hpp"
 #include <cmath>
+#include <ostream>
+#include <ratio>
 
 
 // CAMERA CLASS
@@ -26,9 +28,7 @@ Ray Camera::generateRay(glm::vec3& point){
 
 
 // RENDERER CLASS
-
-
-bool Renderer::intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist){
+bool Renderer::intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist, glm::vec2& pos){
     
     const double EPSILON = 0.000001; // error i think
 
@@ -38,7 +38,6 @@ bool Renderer::intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3
     auto pvec = glm::cross(r.dir, edge2);
     auto det = glm::dot(edge1, pvec);
     if(det > -EPSILON && det < EPSILON){
-        //std::cout << det << std::endl;
         return false;
     }
 
@@ -46,22 +45,19 @@ bool Renderer::intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3
     auto tvec = r.o - p0;
     auto u = glm::dot(tvec, pvec) * idet;
     if(u < 0.0 || u > 1.0){
-        //Log::Print("u ~ 0");
         return false;
     }
 
     auto qvec = glm::cross(tvec, edge1);
     auto v = glm::dot(r.dir, qvec) * idet;
     if(v < 0.0 || u+v > 1.0){
-        //Log::Print("u+v ~ 0");
         return false;
     }
 
     auto t = glm::dot(edge2, qvec) * idet;
 
-    // Must return the position of collision
-    glm::vec2 uv = {u, v};
     dist = t;
+    pos = {u, v};
     return t > EPSILON; 
 }
 
@@ -103,20 +99,34 @@ Intersection Renderer::SceneRaycast(const SceneHandler& scene, Ray& r){
             v_index_offset += fv;
 
             float dist;
-            bool rayHit = intersectTriangle(r, p0, p1, p2, dist);
+            glm::vec2 position;
+            bool rayHit = intersectTriangle(r, p0, p1, p2, dist, position);
+            
+            if(!rayHit)
+                continue;
 
             if(dist>isec.dist && isec.dist > 0)
                     continue;
+
 
             isec.hasHit = true;
             isec.dist = dist;
             isec.normal = glm::vec3(scene.attrib.normals[3*idx0.normal_index+0],scene.attrib.normals[3*idx0.normal_index+1], scene.attrib.normals[3*idx0.normal_index+2]);
             isec.materialIdx = scene.shapes[s].mesh.material_ids[f];
+            isec.trianglePos = (p0 + p1 + p2) / 3.0f;
+            isec.hitPos = position;
+            isec.name = scene.shapes[s].name;
         }
     }
 
     return isec;
 }
+
+
+glm::vec3 transform_position(glm::vec2 uv, glm::vec3 triangle){
+    return {triangle.x * (1-uv.x-uv.y), triangle.y*uv.x, triangle.z*uv.y};
+}
+
 
 glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
 
@@ -131,16 +141,17 @@ glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
                                 scene.materials[hit.materialIdx].emission[1],
                                 scene.materials[hit.materialIdx].emission[2]};
 
-    //std::cout << hit.normal.x << " " << hit.normal.y << " " << hit.normal.z << endl;
+    std::cout << radiance.x << " " << radiance.y << " " << radiance.z << endl;
 
-    return color;
+
+    //return color;
     
     if(bounce >= maxBounces)
-        return radiance;
+        return color;
 
 
-    glm::vec3 incoming = {0,0,0};
-    glm::vec3 origin ={0,0,0};
+    glm::vec3 incoming = {0,1,0};
+    glm::vec3 origin = transform_position(hit.hitPos, hit.trianglePos);
 
     Ray newRay = {origin, incoming};
 
@@ -158,6 +169,8 @@ void Renderer::Render(unsigned char* buffer, SceneHandler& scene){
             Ray qRay = cam->generateRay(q);
 
             auto pixelValue = Shade(scene, qRay, 0);
+
+            //std::cout << pixelValue.x << " " << pixelValue.y << " " << pixelValue.z << endl;
 
             buffer[(i * cam->GetWidth() + j) * 3 + 0] = pixelValue.x * 255;
             buffer[(i * cam->GetWidth() + j) * 3 + 1] = pixelValue.y * 255;

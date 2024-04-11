@@ -1,16 +1,11 @@
 #pragma once
 
-#include "Log.h"
 #include "SceneHandler.h"
 
-#include <cmath>
-#include <cstddef>
-#include <cstdlib>
 #include <fwd.hpp>
 #include <geometric.hpp>
 #include <glm.hpp>
-#include <iostream>
-#include <vector>
+#include <string>
 
 
 struct Ray{
@@ -19,9 +14,12 @@ struct Ray{
 };
 
 struct Intersection{
+    std::string name;
     bool hasHit;
     int materialIdx;
     glm::vec3 normal;
+    glm::vec3 trianglePos;
+    glm::vec2 hitPos;
     float dist = 0;
 };
 
@@ -54,10 +52,10 @@ class Renderer {
 
     private:
         Camera* cam;
-        int maxBounces = 0;
+        int maxBounces = 3;
 
 
-        bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist);
+        bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist, glm::vec2& pos);
         Intersection SceneRaycast(const SceneHandler& scene, Ray& r);
         glm::vec3 Shade(const SceneHandler& scene, Ray& ray, int bounce);
 
