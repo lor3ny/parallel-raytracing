@@ -52,7 +52,7 @@ class Renderer {
 
     private:
         Camera* cam;
-        int maxBounces = 3;
+        int maxBounces = 6;
 
 
         bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist, glm::vec2& pos);

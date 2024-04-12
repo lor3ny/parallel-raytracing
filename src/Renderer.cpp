@@ -3,6 +3,7 @@
 #include <cmath>
 #include <ostream>
 #include <ratio>
+#include <random>
 
 
 // CAMERA CLASS
@@ -127,6 +128,16 @@ glm::vec3 transform_position(glm::vec2 uv, glm::vec3 triangle){
     return {triangle.x * (1-uv.x-uv.y), triangle.y*uv.x, triangle.z*uv.y};
 }
 
+glm::vec3 randomSample() {
+  // Use a Mersenne Twister engine for randomness
+  static std::random_device rd;
+  static std::mt19937 gen(rd());
+  static std::uniform_real_distribution<float> dis_x(-1.0f, 1.0f);
+  static std::uniform_real_distribution<float> dis_z(-1.0f, 1.0f);
+
+  return glm::vec3(dis_x(gen), 0, dis_z(gen));
+}
+
 
 glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
 
@@ -137,25 +148,19 @@ glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
     auto color = glm::vec3{scene.materials[hit.materialIdx].diffuse[0],
                                 scene.materials[hit.materialIdx].diffuse[1],
                                 scene.materials[hit.materialIdx].diffuse[2]};
-    auto radiance = glm::vec3{scene.materials[hit.materialIdx].emission[0],
-                                scene.materials[hit.materialIdx].emission[1],
-                                scene.materials[hit.materialIdx].emission[2]};
+    auto radiance = glm::vec3{scene.materials[hit.materialIdx].ambient[0],
+                                scene.materials[hit.materialIdx].ambient[1],
+                                scene.materials[hit.materialIdx].ambient[2]};
 
-    std::cout << radiance.x << " " << radiance.y << " " << radiance.z << endl;
-
-
-    //return color;
-    
     if(bounce >= maxBounces)
-        return color;
+        return radiance;
 
-
-    glm::vec3 incoming = {0,1,0};
-    glm::vec3 origin = transform_position(hit.hitPos, hit.trianglePos);
+    glm::vec3 incoming = normalize(hit.normal + randomSample()); //approximation, should be used sample hemisphere
+    glm::vec3 origin = hit.trianglePos; //transform_position(hit.hitPos, hit.trianglePos) works? for now lets use interpolated triangle position
 
     Ray newRay = {origin, incoming};
 
-    radiance += (2 * (float) M_PI) * color / (float) M_PI * Shade(scene, newRay, bounce+1) * glm::dot(hit.normal, incoming); 
+    radiance += (2 * (float) M_PI) * (color / (float) M_PI) * Shade(scene, newRay, bounce+1) * glm::dot(hit.normal, incoming); 
 
     return radiance;
 }
