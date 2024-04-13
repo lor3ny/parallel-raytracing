@@ -1,5 +1,7 @@
 #include "Renderer.h"
+#include "common.hpp"
 #include "fwd.hpp"
+#include "trigonometric.hpp"
 #include <cmath>
 #include <ostream>
 #include <ratio>
@@ -130,12 +132,45 @@ glm::vec3 transform_position(glm::vec2 uv, glm::vec3 triangle){
 
 glm::vec3 randomSample() {
   // Use a Mersenne Twister engine for randomness
-  static std::random_device rd;
-  static std::mt19937 gen(rd());
-  static std::uniform_real_distribution<float> dis_x(-1.0f, 1.0f);
-  static std::uniform_real_distribution<float> dis_z(-1.0f, 1.0f);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_real_distribution<float> dis_x(-1.0f, 1.0f);
+    static std::uniform_real_distribution<float> dis_z(-1.0f, 1.0f);
 
-  return glm::vec3(dis_x(gen), 0, dis_z(gen));
+    return glm::vec3(dis_x(gen), 0, dis_z(gen));
+}
+
+glm::vec3 transformHemisphere(glm::vec3 normal, glm::vec3 vec) {
+    
+    //Compute angles
+    glm::vec3 xAxis = glm::vec3(1.0f, 0.0f, 0.0f);
+    glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+
+    float z_dot = glm::dot(glm::normalize(normal), xAxis);
+    float x_dot = glm::dot(glm::normalize(normal), zAxis);
+
+    x_dot = glm::clamp(x_dot, -1.0f, 1.0f);
+    z_dot = glm::clamp(z_dot, -1.0f, 1.0f);
+
+    float z_phi = std::acos(z_dot);
+    float x_phi = std::acos(x_dot);
+
+
+    //apply angles
+
+    double cos_x = cos(glm::degrees(x_phi));
+    double sin_x = sin(glm::degrees(x_phi));
+    double cos_z = cos(glm::degrees(z_phi));
+    double sin_z = sin(glm::degrees(z_phi));
+
+    glm::mat3 R = {{cos_z * cos_x,-sin_z * cos_x,-sin_x},
+                    {cos_z * sin_x,sin_z * sin_x,cos_x},
+                    {sin_z,cos_z,0}};
+
+    // Apply combined rotation to the vector (treated as a homogeneous point)
+    glm::vec3 rotatedVec = R * vec;
+
+    return vec;
 }
 
 
@@ -148,19 +183,19 @@ glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
     auto color = glm::vec3{scene.materials[hit.materialIdx].diffuse[0],
                                 scene.materials[hit.materialIdx].diffuse[1],
                                 scene.materials[hit.materialIdx].diffuse[2]};
-    auto radiance = glm::vec3{scene.materials[hit.materialIdx].ambient[0],
-                                scene.materials[hit.materialIdx].ambient[1],
-                                scene.materials[hit.materialIdx].ambient[2]};
+    auto radiance = glm::vec3{scene.materials[hit.materialIdx].emission[0],
+                                scene.materials[hit.materialIdx].emission[1],
+                                scene.materials[hit.materialIdx].emission[2]};
 
     if(bounce >= maxBounces)
         return radiance;
 
-    glm::vec3 incoming = normalize(hit.normal + randomSample()); //approximation, should be used sample hemisphere
-    glm::vec3 origin = hit.trianglePos; //transform_position(hit.hitPos, hit.trianglePos) works? for now lets use interpolated triangle position
+    glm::vec3 incoming = transformHemisphere(hit.normal, randomSample()); //approximation, should be used sample hemisphere
+    glm::vec3 origin = transform_position(hit.hitPos, hit.trianglePos); //transform_position(hit.hitPos, hit.trianglePos) works? for now lets use interpolated triangle position
 
     Ray newRay = {origin, incoming};
 
-    radiance += (2 * (float) M_PI) * (color / (float) M_PI) * Shade(scene, newRay, bounce+1) * glm::dot(hit.normal, incoming); 
+    radiance += (2 * (float) M_PI) * color / (float) M_PI * Shade(scene, newRay, bounce+1) * glm::dot(hit.normal, incoming); 
 
     return radiance;
 }
