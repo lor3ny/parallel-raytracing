@@ -2,6 +2,7 @@
 #define TINYOBJLOADER_USE_MAPBOX_EARCUT
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
+#include <mpi.h>
 #include "SceneHandler.h"
 #include "Log.h"
 #include "Renderer.h"
@@ -12,28 +13,32 @@
 #define WIDTH 1920
 #define HEIGHT 1080
 
-int main(){
+int main(int argc, char *argv[]){
 
+    MPI_Init(&argc, &argv);
+
+    double start = MPI_Wtime();
+
+    unsigned char* buff = new unsigned char[WIDTH*HEIGHT*3];
+    Renderer renderer(WIDTH, HEIGHT);
     SceneHandler scene;
 
     scene.LoadScene("../test/cornell_box.obj", "../test/");
 
+    Log::Print("Scene loaded.");
+    Log::Print("Rendering...");
 
-    Log::Print("tutt'apposto");
-
-
-    Renderer renderer(WIDTH, HEIGHT);
-
-    unsigned char* buff = new unsigned char[WIDTH*HEIGHT*3];
     renderer.Render(buff, scene);
 
-    // Save the image as a PNG file
     stbi_write_png("res.png", WIDTH, HEIGHT, 3, buff, WIDTH*3);
 
-    // Free the image data
+    Log::Print("Image saved.");
+
     delete[] buff;
 
-    //std::cout << "Image saved successfully!" << std::endl;
+    double end = MPI_Wtime();
 
-    return 0;
+    std::cout << "Time spent: " << end-start << "s" << endl;
+
+    MPI_Finalize();
 }
