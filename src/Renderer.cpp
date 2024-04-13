@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "fwd.hpp"
+#include "geometric.hpp"
 #include <cmath>
 #include <ostream>
 #include <ratio>
@@ -139,7 +140,7 @@ glm::vec3 randomSample() {
 }
 
 
-glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
+glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray){
 
     Intersection hit = SceneRaycast(scene, ray);
     if(!hit.hasHit)
@@ -152,17 +153,8 @@ glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray, int bounce){
                                 scene.materials[hit.materialIdx].ambient[1],
                                 scene.materials[hit.materialIdx].ambient[2]};
 
-    if(bounce >= maxBounces)
-        return radiance;
 
-    glm::vec3 incoming = normalize(hit.normal + randomSample()); //approximation, should be used sample hemisphere
-    glm::vec3 origin = hit.trianglePos; //transform_position(hit.hitPos, hit.trianglePos) works? for now lets use interpolated triangle position
-
-    Ray newRay = {origin, incoming};
-
-    radiance += (2 * (float) M_PI) * (color / (float) M_PI) * Shade(scene, newRay, bounce+1) * glm::dot(hit.normal, incoming); 
-
-    return radiance;
+    return color * glm::dot(-ray.dir, hit.normal);
 }
 
 
@@ -173,7 +165,7 @@ void Renderer::Render(unsigned char* buffer, SceneHandler& scene){
             glm::vec3 q = cam->PixelToPoint(j, i);
             Ray qRay = cam->generateRay(q);
 
-            auto pixelValue = Shade(scene, qRay, 0);
+            auto pixelValue = Shade(scene, qRay);
 
             //std::cout << pixelValue.x << " " << pixelValue.y << " " << pixelValue.z << endl;
 
