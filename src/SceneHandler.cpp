@@ -29,18 +29,10 @@ int SceneHandler::LoadScene(const string& path, const string& materials_path){
     if (!reader.Warning().empty()) {
         Log::PrintError(reader.Warning());
     }
-    
 
     attrib = reader.GetAttrib();
     shapes = reader.GetShapes();
     materials = reader.GetMaterials();
 
-    /*
-    std::cout << "NORMALS:" << std::endl;
-    for (float x : attrib.normals) {
-	    std::cout << x << std::endl;
-    }
-    std::cout << std::endl;
-    */
     return 0;
 }

@@ -60,14 +60,10 @@ class Renderer {
 
         // Generalize the constructor with camera data
 
-        Renderer(int width, int height){
-            glm::vec3 o = {250.0f,250.0f,-1000.0f};
-            cam = new Camera(o,1000, width, height);
+        Renderer(Camera* camera){
+            cam = camera;
         }
-        ~Renderer(){
-            delete [] cam;
-        }
-
+        ~Renderer(){}
 
         void Render(unsigned char* buffer, SceneHandler& scene);
 };

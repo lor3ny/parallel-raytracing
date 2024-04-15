@@ -11,7 +11,7 @@
 
 glm::vec3 Camera::PixelToPoint(int i, int j){
     float u = (i+0.5f)/frameWidth;
-    float v = (j+0.5f)/frameHeight;
+    float v = ((j+0.5f)/frameHeight)+frameHeight*2 ;
 
     glm::vec3 point;
 
