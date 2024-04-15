@@ -8,11 +8,9 @@
 #include <mpi.h>
 
 #include "SceneHandler.h"
-#include "Log.h"
 #include "Renderer.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
-#include "cudaRaytracing.h"
 
 
 #define WIDTH 1920
@@ -37,17 +35,20 @@ int main(int argc, char *argv[]){
     SceneHandler scene;
     scene.LoadScene("../test/cornell_box.obj", "../test/");
 
+    glm::vec3 origin = {250,250,-1000};
+    Camera camera(origin, 1000, WIDTH, HEIGHT);
+
+    int camera_start = batchSize * id;
+    int camera_end = batchSize * (id+1);
+
     if(id==0){
         bigBuff = new unsigned char[WIDTH*HEIGHT*3];
 
         cout << id << ": scene loaded" << endl;
 
-        glm::vec3 origin = glm::vec3{250.0f,250.0f,-1000}; 
-        Camera camera(origin, 1000, WIDTH, batchSize);
-        Renderer renderer(&camera);
+        Renderer renderer(&camera, camera_start, batchSize);
 
         cout << id << ": Rendering started." << endl;
-
         renderer.Render(smallBuff, scene);
 
         cout << id << ": Rendering done." << endl;
@@ -62,10 +63,7 @@ int main(int argc, char *argv[]){
 
         cout << id << ": Rendering started." << endl;
 
-        glm::vec3 origin = glm::vec3{250.0f,250.0f,-1000}; 
-        Camera camera(origin, 1000, WIDTH, batchSize);
-        Renderer renderer(&camera);
-
+        Renderer renderer(&camera, camera_start, batchSize);
         renderer.Render(smallBuff, scene);
 
         cout << id << ": Rendering done." << endl;

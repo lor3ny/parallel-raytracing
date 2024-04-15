@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/bin/nvcc"
+			"value" : "/usr/local/cuda-12.3/bin/nvcc"
 		},
 		{
 			"name" : "CMAKE_CUDA_FLAGS",
@@ -251,10 +251,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/g++"
 		},
 		{
@@ -374,128 +374,12 @@
 			"properties" : 
 			[
 				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
 					"name" : "HELPSTRING",
 					"value" : "No help, variable specified on the command line."
 				}
 			],
 			"type" : "FILEPATH",
 			"value" : "/usr/bin/gcc"
-		},
-		{
-			"name" : "CMAKE_C_COMPILER_AR",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "A wrapper around 'ar' adding the appropriate '--plugin' option for the GCC compiler"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/bin/gcc-ar-11"
-		},
-		{
-			"name" : "CMAKE_C_COMPILER_RANLIB",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "A wrapper around 'ranlib' adding the appropriate '--plugin' option for the GCC compiler"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/bin/gcc-ranlib-11"
-		},
-		{
-			"name" : "CMAKE_C_FLAGS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the C compiler during all build types."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CMAKE_C_FLAGS_DEBUG",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the C compiler during DEBUG builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : "-g"
-		},
-		{
-			"name" : "CMAKE_C_FLAGS_MINSIZEREL",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the C compiler during MINSIZEREL builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : "-Os -DNDEBUG"
-		},
-		{
-			"name" : "CMAKE_C_FLAGS_RELEASE",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the C compiler during RELEASE builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : "-O3 -DNDEBUG"
-		},
-		{
-			"name" : "CMAKE_C_FLAGS_RELWITHDEBINFO",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the C compiler during RELWITHDEBINFO builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : "-O2 -g -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_DLLTOOL",
@@ -1302,70 +1186,6 @@
 			"value" : "/usr/lib/x86_64-linux-gnu/librt.a"
 		},
 		{
-			"name" : "CUDA_64_BIT_DEVICE_CODE",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Compile device code in 64 bit mode"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "ON"
-		},
-		{
-			"name" : "CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Attach the build rule to the CUDA source file.  Enable only when the CUDA source file is added to at most one target."
-				}
-			],
-			"type" : "BOOL",
-			"value" : "ON"
-		},
-		{
-			"name" : "CUDA_BUILD_CUBIN",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Generate and parse .cubin files in Device mode."
-				}
-			],
-			"type" : "BOOL",
-			"value" : "OFF"
-		},
-		{
-			"name" : "CUDA_BUILD_EMULATION",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Build in Emulation mode"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "OFF"
-		},
-		{
 			"name" : "CUDA_CUDART",
 			"properties" : 
 			[
@@ -1379,179 +1199,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcudart.so"
-		},
-		{
-			"name" : "CUDA_CUDART_LIBRARY",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "\"cudart\" library"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcudart.so"
-		},
-		{
-			"name" : "CUDA_CUDA_LIBRARY",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "\"cuda\" library (older versions only)."
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/lib/x86_64-linux-gnu/libcuda.so"
-		},
-		{
-			"name" : "CUDA_GENERATED_OUTPUT_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Directory to put all the output files.  If blank it will default to the CMAKE_CURRENT_BINARY_DIR"
-				}
-			],
-			"type" : "PATH",
-			"value" : ""
-		},
-		{
-			"name" : "CUDA_HOST_COMPILATION_CPP",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Generated file extension"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "ON"
-		},
-		{
-			"name" : "CUDA_HOST_COMPILER",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Host side compiler used by NVCC"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/bin/gcc"
-		},
-		{
-			"name" : "CUDA_NVCC_EXECUTABLE",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Path to a program."
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/bin/nvcc"
-		},
-		{
-			"name" : "CUDA_NVCC_FLAGS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Semi-colon delimit multiple arguments. during all build types."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CUDA_NVCC_FLAGS_DEBUG",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Semi-colon delimit multiple arguments. during DEBUG builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CUDA_NVCC_FLAGS_MINSIZEREL",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Semi-colon delimit multiple arguments. during MINSIZEREL builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CUDA_NVCC_FLAGS_RELEASE",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Semi-colon delimit multiple arguments. during RELEASE builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CUDA_NVCC_FLAGS_RELWITHDEBINFO",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Semi-colon delimit multiple arguments. during RELWITHDEBINFO builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
+			"value" : "/usr/local/cuda-12.3/lib64/libcudart.so"
 		},
 		{
 			"name" : "CUDA_OpenCL_LIBRARY",
@@ -1563,163 +1211,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"OpenCL\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libOpenCL.so"
-		},
-		{
-			"name" : "CUDA_PROPAGATE_HOST_FLAGS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Propagate C/CXX_FLAGS and friends to the host compiler via -Xcompile"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "ON"
-		},
-		{
-			"name" : "CUDA_SDK_ROOT_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Path to a file."
-				}
-			],
-			"type" : "PATH",
-			"value" : "CUDA_SDK_ROOT_DIR-NOTFOUND"
-		},
-		{
-			"name" : "CUDA_SDK_ROOT_DIR_INTERNAL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "This is the value of the last time CUDA_SDK_ROOT_DIR was set successfully."
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "CUDA_SDK_ROOT_DIR-NOTFOUND"
-		},
-		{
-			"name" : "CUDA_SEPARABLE_COMPILATION",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Compile CUDA objects with separable compilation enabled.  Requires CUDA 5.0+"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "OFF"
-		},
-		{
-			"name" : "CUDA_TOOLKIT_INCLUDE",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Path to a file."
-				}
-			],
-			"type" : "PATH",
-			"value" : "/usr/local/cuda-12/include"
-		},
-		{
-			"name" : "CUDA_TOOLKIT_ROOT_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Toolkit location."
-				}
-			],
-			"type" : "PATH",
-			"value" : "/usr/local/cuda-12"
-		},
-		{
-			"name" : "CUDA_TOOLKIT_ROOT_DIR_INTERNAL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "This is the value of the last time CUDA_TOOLKIT_ROOT_DIR was set successfully."
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "/usr/local/cuda-12"
-		},
-		{
-			"name" : "CUDA_TOOLKIT_TARGET_DIR_INTERNAL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "This is the value of the last time CUDA_TOOLKIT_TARGET_DIR was set successfully."
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "/usr/local/cuda-12"
-		},
-		{
-			"name" : "CUDA_USE_STATIC_CUDA_RUNTIME",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Use the static version of the CUDA runtime library if available"
-				}
-			],
-			"type" : "BOOL",
-			"value" : "ON"
-		},
-		{
-			"name" : "CUDA_VERBOSE_BUILD",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Print out the commands run while compiling the CUDA source file.  With the Makefile generator this defaults to VERBOSE variable specified on the command line, but can be forced on with this option."
-				}
-			],
-			"type" : "BOOL",
-			"value" : "OFF"
-		},
-		{
-			"name" : "CUDA_VERSION",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Version of CUDA as computed from nvcc."
-				}
-			],
-			"type" : "STRING",
-			"value" : "12.3"
+			"value" : "/usr/local/cuda-12.3/lib64/libOpenCL.so"
 		},
 		{
 			"name" : "CUDA_cublasLt_LIBRARY",
@@ -1735,7 +1231,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcublasLt.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcublasLt.so"
 		},
 		{
 			"name" : "CUDA_cublasLt_static_LIBRARY",
@@ -1751,7 +1247,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcublasLt_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcublasLt_static.a"
 		},
 		{
 			"name" : "CUDA_cublas_LIBRARY",
@@ -1763,11 +1259,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"cublas\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcublas.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcublas.so"
 		},
 		{
 			"name" : "CUDA_cublas_static_LIBRARY",
@@ -1783,7 +1279,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcublas_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcublas_static.a"
 		},
 		{
 			"name" : "CUDA_cuda_driver_LIBRARY",
@@ -1802,22 +1298,6 @@
 			"value" : "/usr/lib/x86_64-linux-gnu/libcuda.so"
 		},
 		{
-			"name" : "CUDA_cudadevrt_LIBRARY",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "\"cudadevrt\" library"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcudadevrt.a"
-		},
-		{
 			"name" : "CUDA_cudart_LIBRARY",
 			"properties" : 
 			[
@@ -1831,7 +1311,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcudart.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcudart.so"
 		},
 		{
 			"name" : "CUDA_cudart_static_LIBRARY",
@@ -1843,11 +1323,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "static CUDA runtime library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcudart_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcudart_static.a"
 		},
 		{
 			"name" : "CUDA_cufft_LIBRARY",
@@ -1859,11 +1339,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"cufft\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcufft.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcufft.so"
 		},
 		{
 			"name" : "CUDA_cufft_static_LIBRARY",
@@ -1879,7 +1359,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcufft_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcufft_static.a"
 		},
 		{
 			"name" : "CUDA_cufftw_LIBRARY",
@@ -1895,7 +1375,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcufftw.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcufftw.so"
 		},
 		{
 			"name" : "CUDA_culibos_LIBRARY",
@@ -1911,7 +1391,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libculibos.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libculibos.a"
 		},
 		{
 			"name" : "CUDA_cupti_LIBRARY",
@@ -1923,11 +1403,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"cupti\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcupti.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcupti.so"
 		},
 		{
 			"name" : "CUDA_cupti_static_LIBRARY",
@@ -1943,7 +1423,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcupti_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcupti_static.a"
 		},
 		{
 			"name" : "CUDA_curand_LIBRARY",
@@ -1955,11 +1435,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"curand\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcurand.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcurand.so"
 		},
 		{
 			"name" : "CUDA_curand_static_LIBRARY",
@@ -1975,7 +1455,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcurand_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcurand_static.a"
 		},
 		{
 			"name" : "CUDA_cusolver_LIBRARY",
@@ -1987,11 +1467,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"cusolver\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcusolver.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcusolver.so"
 		},
 		{
 			"name" : "CUDA_cusolver_static_LIBRARY",
@@ -2007,7 +1487,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcusolver_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libcusolver_static.a"
 		},
 		{
 			"name" : "CUDA_cusparse_LIBRARY",
@@ -2019,11 +1499,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"cusparse\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcusparse.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libcusparse.so"
 		},
 		{
 			"name" : "CUDA_cusparse_static_LIBRARY",
@@ -2039,19 +1519,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libcusparse_static.a"
-		},
-		{
-			"name" : "CUDA_make2cmake",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Location of make2cmake.cmake"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "/usr/share/cmake-3.22/Modules/FindCUDA/make2cmake.cmake"
+			"value" : "/usr/local/cuda-12.3/lib64/libcusparse_static.a"
 		},
 		{
 			"name" : "CUDA_nppc_LIBRARY",
@@ -2063,11 +1531,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppc\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppc.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppc.so"
 		},
 		{
 			"name" : "CUDA_nppc_static_LIBRARY",
@@ -2083,7 +1551,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppc_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppc_static.a"
 		},
 		{
 			"name" : "CUDA_nppial_LIBRARY",
@@ -2095,11 +1563,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppial\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppial.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppial.so"
 		},
 		{
 			"name" : "CUDA_nppial_static_LIBRARY",
@@ -2115,7 +1583,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppial_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppial_static.a"
 		},
 		{
 			"name" : "CUDA_nppicc_LIBRARY",
@@ -2127,11 +1595,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppicc\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppicc.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppicc.so"
 		},
 		{
 			"name" : "CUDA_nppicc_static_LIBRARY",
@@ -2147,7 +1615,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppicc_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppicc_static.a"
 		},
 		{
 			"name" : "CUDA_nppicom_LIBRARY",
@@ -2191,11 +1659,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppidei\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppidei.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppidei.so"
 		},
 		{
 			"name" : "CUDA_nppidei_static_LIBRARY",
@@ -2211,7 +1679,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppidei_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppidei_static.a"
 		},
 		{
 			"name" : "CUDA_nppif_LIBRARY",
@@ -2223,11 +1691,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppif\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppif.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppif.so"
 		},
 		{
 			"name" : "CUDA_nppif_static_LIBRARY",
@@ -2243,7 +1711,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppif_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppif_static.a"
 		},
 		{
 			"name" : "CUDA_nppig_LIBRARY",
@@ -2255,11 +1723,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppig\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppig.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppig.so"
 		},
 		{
 			"name" : "CUDA_nppig_static_LIBRARY",
@@ -2275,7 +1743,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppig_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppig_static.a"
 		},
 		{
 			"name" : "CUDA_nppim_LIBRARY",
@@ -2287,11 +1755,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppim\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppim.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppim.so"
 		},
 		{
 			"name" : "CUDA_nppim_static_LIBRARY",
@@ -2307,7 +1775,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppim_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppim_static.a"
 		},
 		{
 			"name" : "CUDA_nppist_LIBRARY",
@@ -2319,11 +1787,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppist\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppist.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppist.so"
 		},
 		{
 			"name" : "CUDA_nppist_static_LIBRARY",
@@ -2339,7 +1807,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppist_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppist_static.a"
 		},
 		{
 			"name" : "CUDA_nppisu_LIBRARY",
@@ -2351,11 +1819,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppisu\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppisu.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppisu.so"
 		},
 		{
 			"name" : "CUDA_nppisu_static_LIBRARY",
@@ -2371,7 +1839,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppisu_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppisu_static.a"
 		},
 		{
 			"name" : "CUDA_nppitc_LIBRARY",
@@ -2383,11 +1851,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nppitc\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppitc.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppitc.so"
 		},
 		{
 			"name" : "CUDA_nppitc_static_LIBRARY",
@@ -2403,7 +1871,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnppitc_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnppitc_static.a"
 		},
 		{
 			"name" : "CUDA_npps_LIBRARY",
@@ -2415,11 +1883,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"npps\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnpps.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnpps.so"
 		},
 		{
 			"name" : "CUDA_npps_static_LIBRARY",
@@ -2435,7 +1903,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnpps_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnpps_static.a"
 		},
 		{
 			"name" : "CUDA_nvToolsExt_LIBRARY",
@@ -2447,11 +1915,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "\"nvToolsExt\" library"
+					"value" : "Path to a library."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnvToolsExt.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnvToolsExt.so"
 		},
 		{
 			"name" : "CUDA_nvgraph_LIBRARY",
@@ -2499,7 +1967,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnvjpeg.so"
+			"value" : "/usr/local/cuda-12.3/lib64/libnvjpeg.so"
 		},
 		{
 			"name" : "CUDA_nvjpeg_static_LIBRARY",
@@ -2515,7 +1983,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnvjpeg_static.a"
+			"value" : "/usr/local/cuda-12.3/lib64/libnvjpeg_static.a"
 		},
 		{
 			"name" : "CUDA_nvml_LIBRARY",
@@ -2547,55 +2015,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/local/cuda-12/lib64/libnvrtc.so"
-		},
-		{
-			"name" : "CUDA_parse_cubin",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Location of parse_cubin.cmake"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "/usr/share/cmake-3.22/Modules/FindCUDA/parse_cubin.cmake"
-		},
-		{
-			"name" : "CUDA_rt_LIBRARY",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Path to a library."
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/lib/x86_64-linux-gnu/librt.a"
-		},
-		{
-			"name" : "CUDA_run_nvcc",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Location of run_nvcc.cmake"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "/usr/share/cmake-3.22/Modules/FindCUDA/run_nvcc.cmake"
-		},
-		{
-			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_CUDA",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Details about finding CUDA"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "[/usr/local/cuda-12][/usr/local/cuda-12/bin/nvcc][/usr/local/cuda-12/include][/usr/local/cuda-12/lib64/libcudart_static.a][v12.3()]"
+			"value" : "/usr/local/cuda-12.3/lib64/libnvrtc.so"
 		},
 		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_CUDAToolkit",
@@ -2607,7 +2027,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "[/usr/local/cuda-12/include][/usr/local/cuda-12/lib64/libcudart.so][/usr/local/cuda-12/bin][v12.3.107()]"
+			"value" : "[/usr/local/cuda-12.3/include][/usr/local/cuda-12.3/lib64/libcudart.so][/usr/local/cuda-12.3/bin][v12.3.107()]"
 		},
 		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_MPI",
@@ -2622,18 +2042,6 @@
 			"value" : "[TRUE][c ][v3.1()]"
 		},
 		{
-			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_MPI_C",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Details about finding MPI_C"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "[/usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so][mpi][/usr/lib/x86_64-linux-gnu/openmpi/include][TRUE][v3.1()]"
-		},
-		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_MPI_CXX",
 			"properties" : 
 			[
@@ -2643,7 +2051,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "[/usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so][/usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so][mpi_cxx;mpi][/usr/lib/x86_64-linux-gnu/openmpi/include][TRUE][v3.1()]"
+			"value" : "[/usr/local/lib/libmpi.so][mpi][/usr/local/include][TRUE][v3.1()]"
 		},
 		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Threads",
@@ -2671,7 +2079,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/mpiexec"
+			"value" : "/usr/local/bin/mpiexec"
 		},
 		{
 			"name" : "MPIEXEC_MAX_NUMPROCS",
@@ -2687,7 +2095,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "4"
+			"value" : "8"
 		},
 		{
 			"name" : "MPIEXEC_NUMPROC_FLAG",
@@ -2767,7 +2175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/mpicxx"
+			"value" : "/usr/local/bin/mpicxx"
 		},
 		{
 			"name" : "MPI_CXX_COMPILER_INCLUDE_DIRS",
@@ -2783,7 +2191,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "/usr/lib/x86_64-linux-gnu/openmpi/include;/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi"
+			"value" : "/usr/local/include"
 		},
 		{
 			"name" : "MPI_CXX_COMPILE_DEFINITIONS",
@@ -2831,7 +2239,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "/usr/lib/x86_64-linux-gnu/openmpi/include"
+			"value" : "/usr/local/include"
 		},
 		{
 			"name" : "MPI_CXX_LIB_NAMES",
@@ -2847,7 +2255,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "mpi_cxx;mpi"
+			"value" : "mpi"
 		},
 		{
 			"name" : "MPI_CXX_LINK_FLAGS",
@@ -2863,7 +2271,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-Wl,-rpath -Wl,/usr/local/lib -Wl,--enable-new-dtags"
 		},
 		{
 			"name" : "MPI_CXX_SKIP_MPICXX",
@@ -2880,134 +2288,6 @@
 			],
 			"type" : "BOOL",
 			"value" : "OFF"
-		},
-		{
-			"name" : "MPI_C_ADDITIONAL_INCLUDE_DIRS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI C additional include directories"
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "MPI_C_COMPILER",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI compiler for C"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/bin/mpicc"
-		},
-		{
-			"name" : "MPI_C_COMPILER_INCLUDE_DIRS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI C compiler wrapper include directories"
-				}
-			],
-			"type" : "STRING",
-			"value" : "/usr/lib/x86_64-linux-gnu/openmpi/include;/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi"
-		},
-		{
-			"name" : "MPI_C_COMPILE_DEFINITIONS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI C compilation definitions"
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "MPI_C_COMPILE_OPTIONS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI C compilation options"
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "MPI_C_HEADER_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Path to a file."
-				}
-			],
-			"type" : "PATH",
-			"value" : "/usr/lib/x86_64-linux-gnu/openmpi/include"
-		},
-		{
-			"name" : "MPI_C_LIB_NAMES",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI C libraries to link against"
-				}
-			],
-			"type" : "STRING",
-			"value" : "mpi"
-		},
-		{
-			"name" : "MPI_C_LINK_FLAGS",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "MPI C linker flags"
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
 		},
 		{
 			"name" : "MPI_RESULT_CXX_test_mpi_MPICXX",
@@ -3034,18 +2314,6 @@
 			"value" : "TRUE"
 		},
 		{
-			"name" : "MPI_RESULT_C_test_mpi_normal",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Result of TRY_COMPILE"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "TRUE"
-		},
-		{
 			"name" : "MPI_mpi_LIBRARY",
 			"properties" : 
 			[
@@ -3059,35 +2327,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so"
-		},
-		{
-			"name" : "MPI_mpi_cxx_LIBRARY",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Location of the mpi_cxx library for MPI"
-				}
-			],
-			"type" : "FILEPATH",
-			"value" : "/usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so"
-		},
-		{
-			"name" : "OpenMPI_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "The directory containing a CMake configuration file for OpenMPI."
-				}
-			],
-			"type" : "PATH",
-			"value" : "OpenMPI_DIR-NOTFOUND"
+			"value" : "/usr/local/lib/libmpi.so"
 		},
 		{
 			"name" : "PKG_CONFIG_ARGN",

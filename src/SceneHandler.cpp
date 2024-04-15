@@ -1,5 +1,5 @@
 #include "SceneHandler.h"
-#include <cstddef>
+#include <iostream>
 
 SceneHandler::SceneHandler(){
     this->scene_id = 0;
@@ -21,13 +21,13 @@ int SceneHandler::LoadScene(const string& path, const string& materials_path){
 
     if (!reader.ParseFromFile(path, reader_config)) {
         if (!reader.Error().empty()) {
-            Log::PrintError(reader.Error());
+            std::cerr << reader.Error() << std::endl;
         }
         return 1;
     }
 
     if (!reader.Warning().empty()) {
-        Log::PrintError(reader.Warning());
+        std::cerr << reader.Warning() << std::endl;
     }
 
     attrib = reader.GetAttrib();

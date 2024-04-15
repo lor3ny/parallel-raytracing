@@ -1,9 +1,8 @@
 #include "Renderer.h"
 #include "fwd.hpp"
 #include "geometric.hpp"
-#include <cmath>
+#include <iostream>
 #include <ostream>
-#include <ratio>
 #include <random>
 
 
@@ -11,7 +10,7 @@
 
 glm::vec3 Camera::PixelToPoint(int i, int j){
     float u = (i+0.5f)/frameWidth;
-    float v = ((j+0.5f)/frameHeight)+frameHeight*2 ;
+    float v = ((j+0.5f)/frameHeight);
 
     glm::vec3 point;
 
@@ -75,7 +74,7 @@ Intersection Renderer::SceneRaycast(const SceneHandler& scene, Ray& r){
             
             size_t fv = size_t(scene.shapes[s].mesh.num_face_vertices[f]);
             if(fv != 3)
-                Log::PrintError("Robust Triangulation is not working. Raytracing stopped");          
+                cerr << "Robust Triangulation is not working. Raytracing stopped" << endl;       
             
             tinyobj::index_t idx0 = scene.shapes[s].mesh.indices[v_index_offset + 0];
             tinyobj::index_t idx1 = scene.shapes[s].mesh.indices[v_index_offset + 1];
@@ -144,7 +143,7 @@ glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray){
 
     Intersection hit = SceneRaycast(scene, ray);
     if(!hit.hasHit)
-        return glm::vec3{0,0,0};
+        return glm::vec3{0,20,80};
 
     auto color = glm::vec3{scene.materials[hit.materialIdx].diffuse[0],
                                 scene.materials[hit.materialIdx].diffuse[1],
@@ -159,10 +158,12 @@ glm::vec3 Renderer::Shade(const SceneHandler& scene, Ray& ray){
 
 
 void Renderer::Render(unsigned char* buffer, SceneHandler& scene){
-    for(int i = 0; i < cam->GetHeight(); i++){
+    for(int i = 0; i < batchSize; i++){
         for(int j = 0; j < cam->GetWidth(); j++){
 
-            glm::vec3 q = cam->PixelToPoint(j, i);
+            int p_x = start_index+i;
+
+            glm::vec3 q = cam->PixelToPoint(j, p_x);
             Ray qRay = cam->generateRay(q);
 
             auto pixelValue = Shade(scene, qRay);

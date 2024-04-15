@@ -56,14 +56,20 @@ class Renderer {
         Intersection SceneRaycast(const SceneHandler& scene, Ray& r);
         glm::vec3 Shade(const SceneHandler& scene, Ray& ray);
 
+        int start_index;
+        int batchSize;
+
     public: 
 
         // Generalize the constructor with camera data
 
-        Renderer(Camera* camera){
+        Renderer(Camera* camera, int& start_idx, int batch){
             cam = camera;
+            start_index = start_idx;
+            batchSize = batch;
         }
         ~Renderer(){}
+
 
         void Render(unsigned char* buffer, SceneHandler& scene);
 };
