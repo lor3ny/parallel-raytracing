@@ -3,11 +3,13 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include <mpi.h>
+
 #include "SceneHandler.h"
 #include "Log.h"
 #include "Renderer.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
+#include "cudaRaytracing.h"
 
 
 #define WIDTH 1920
