@@ -7,7 +7,7 @@
 
 #include <mpi.h>
 
-#include "SceneHandler.h"
+#include "Scene.h"
 #include "Renderer.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
@@ -32,10 +32,11 @@ int main(int argc, char *argv[]){
     unsigned char* smallBuff = new unsigned char[WIDTH*batchSize*3];
     unsigned char* bigBuff;
 
-    SceneHandler scene;
+    Scene scene;
+    //scene.LoadScene("../test/cornell_box.obj", "../test/");
     scene.LoadScene("../test/cornell_box.obj", "../test/");
 
-    glm::vec3 origin = {250,250,-1000};
+    vec3 origin = {250,250,-1000};
     Camera camera(origin, 1000, WIDTH, HEIGHT);
 
     int camera_start = batchSize * id;

@@ -1,7 +1,7 @@
-#include "Renderer.h"
 #include <cuda_runtime.h>
-#include "SceneHandler.h"
+#include <cublas_v2.h>
+#include "Scene.h"
 #include "Renderer.h"
 
 __global__
-void CUDA_Render(unsigned char* buffer, SceneHandler& scene, Renderer& renderer); //unsigned char* buffer, SceneHandler& scene, Renderer& renderer);
+void SceneRaycastCUDA(const Scene& scene, Ray& r, Intersection& isec);
