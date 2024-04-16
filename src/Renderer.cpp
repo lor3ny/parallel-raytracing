@@ -1,10 +1,4 @@
 #include "Renderer.h"
-#include "fwd.hpp"
-#include "geometric.hpp"
-#include <iostream>
-#include <ostream>
-#include <random>
-#include "vec3.h"
 
 
 // CAMERA CLASS
@@ -59,7 +53,11 @@ Intersection Renderer::SceneRaycast(const Scene& scene, Ray& r){
 
 vec3 Renderer::Shade(const Scene& scene, Ray& ray){
 
-    Intersection hit = SceneRaycast(scene, ray);
+    //Intersection hit = SceneRaycast(scene, ray);
+    Intersection hit;
+    
+    SceneRaycastCUDA<<<1,1>>>(scene, ray, hit);
+
     if(!hit.hasHit)
         return vec3{0,20,80};
 

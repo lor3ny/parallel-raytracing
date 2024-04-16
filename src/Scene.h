@@ -1,6 +1,5 @@
 #pragma once
 
-#include "fwd.hpp"
 #include "tiny_obj_loader.h"
 #include "vec3.h"
 
@@ -15,9 +14,9 @@ using namespace std;
 class triangle {
 
     public:
-        __host__ __device__ vec3 vertices[3];
-        __host__ __device__ vec3 normal;
-        __host__ __device__ vec3 pos;
+        vec3 vertices[3];
+        vec3 normal;
+        vec3 pos;
 
         __host__ __device__ triangle() {}
         __host__ __device__ triangle(vec3& p0, vec3& p1, vec3& p2, vec3& nor) {
@@ -34,9 +33,9 @@ class triangle {
 
 class shape {
     public:
-        __host__ __device__ triangle* triangles;
-        __host__ __device__ vec3 color;
-        __host__ __device__ int trianglesCount;
+        triangle* triangles;
+        vec3 color;
+        int trianglesCount;
 
         __host__ __device__ shape() {}
         __host__ __device__ shape(int size) {
@@ -62,9 +61,9 @@ class Scene {
         vector<tinyobj::material_t> materials;
         vector<tinyobj::shape_t> shapes;
 
-        __host__ __device__ shape* raw_shapes;
+        shape* raw_shapes;
 
-        __host__ __device__ int shapesCount;
+        int shapesCount;
 
         Scene() {};
         ~Scene(){

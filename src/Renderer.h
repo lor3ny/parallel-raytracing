@@ -1,25 +1,9 @@
 #pragma once
 
-#include "Scene.h"
-
-#include <fwd.hpp>
-#include <geometric.hpp>
-#include <glm.hpp>
-#include <string>
 #include "vec3.h"
+#include "Scene.h"
+#include "CUDA_Renderer.h"
 
-struct Ray{
-    vec3 o; // origin
-    vec3 dir; // direction
-};
-
-__host__ __device__ struct Intersection{
-    __host__ __device__ bool hasHit;
-    __host__ __device__ vec3 color;
-    __host__ __device__ vec3 normal;
-    //vec2 hitPos;
-    __host__ __device__ float dist = 0;
-};
 
 class Camera {
 

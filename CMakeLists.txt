@@ -15,15 +15,15 @@ file(GLOB SOURCE_FILES
     "${SRC_DIR}/*.cu"
 )
 
+
 add_executable(renderer ${SOURCE_FILES})
 
-# ,Aybe off is not good
+#Maybe off is not good
 set_target_properties(renderer PROPERTIES CUDA_ARCHITECTURES OFF)
 
 target_link_libraries(renderer MPI::MPI_CXX)
 target_link_libraries(renderer CUDA::cudart)
 
 target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/")
-target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/glm")
 target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/tiny_obj_loader")
 target_include_directories(renderer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/stb")

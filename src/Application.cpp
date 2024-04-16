@@ -1,6 +1,3 @@
-#include "fwd.hpp"
-#include <iostream>
-#include <queue>
 #define TINYOBJLOADER_IMPLEMENTATION
 #define TINYOBJLOADER_USE_MAPBOX_EARCUT
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -51,6 +48,9 @@ int main(int argc, char *argv[]){
 
         cout << id << ": Rendering started." << endl;
         renderer.Render(smallBuff, scene);
+        
+        Intersection hit;
+        Ray ray;
 
         cout << id << ": Rendering done." << endl;
 

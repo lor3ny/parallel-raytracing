@@ -40,6 +40,19 @@ public:
     float e[3];
 };
 
+struct Ray{
+    vec3 o; // origin
+    vec3 dir; // direction
+};
+
+__host__ __device__ 
+struct Intersection{
+    bool hasHit;
+    vec3 color;
+    vec3 normal;
+    //vec2 hitPos;
+    float dist = 0;
+};
 
 
 inline std::istream& operator>>(std::istream &is, vec3 &t) {
