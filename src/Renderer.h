@@ -50,18 +50,18 @@ class Camera {
 class Renderer {
 
     private:
-        Camera* cam;
-
         bool intersectTriangle(Ray& r, glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, float& dist, glm::vec2& pos);
         Intersection SceneRaycast(const SceneHandler& scene, Ray& r);
         glm::vec3 Shade(const SceneHandler& scene, Ray& ray);
 
+    public: 
+
+        // Generalize the constructor with camera data 
+
         int start_index;
         int batchSize;
 
-    public: 
-
-        // Generalize the constructor with camera data
+        Camera* cam;
 
         Renderer(Camera* camera, int& start_idx, int batch){
             cam = camera;
