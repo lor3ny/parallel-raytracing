@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/lor3n/Dev/parallel-raytracing/build",
+  "command": "/usr/bin/g++  -I/home/lor3n/Dev/parallel-raytracing/libs -I/home/lor3n/Dev/parallel-raytracing/libs/tiny_obj_loader -I/home/lor3n/Dev/parallel-raytracing/libs/stb -isystem /usr/local/cuda-12.3/include -g -o CMakeFiles/renderer.dir/src/Application.cpp.o -c /home/lor3n/Dev/parallel-raytracing/src/Application.cpp",
+  "file": "/home/lor3n/Dev/parallel-raytracing/src/Application.cpp"
+},
+{
+  "directory": "/home/lor3n/Dev/parallel-raytracing/build",
+  "command": "/usr/bin/g++  -I/home/lor3n/Dev/parallel-raytracing/libs -I/home/lor3n/Dev/parallel-raytracing/libs/tiny_obj_loader -I/home/lor3n/Dev/parallel-raytracing/libs/stb -isystem /usr/local/cuda-12.3/include -g -o CMakeFiles/renderer.dir/src/Renderer.cpp.o -c /home/lor3n/Dev/parallel-raytracing/src/Renderer.cpp",
+  "file": "/home/lor3n/Dev/parallel-raytracing/src/Renderer.cpp"
+},
+{
+  "directory": "/home/lor3n/Dev/parallel-raytracing/build",
+  "command": "/usr/bin/g++  -I/home/lor3n/Dev/parallel-raytracing/libs -I/home/lor3n/Dev/parallel-raytracing/libs/tiny_obj_loader -I/home/lor3n/Dev/parallel-raytracing/libs/stb -isystem /usr/local/cuda-12.3/include -g -o CMakeFiles/renderer.dir/src/Scene.cpp.o -c /home/lor3n/Dev/parallel-raytracing/src/Scene.cpp",
+  "file": "/home/lor3n/Dev/parallel-raytracing/src/Scene.cpp"
+}
+]

@@ -1,0 +1,3 @@
+/home/lor3n/Dev/parallel-raytracing/build/CMakeFiles/renderer.dir
+/home/lor3n/Dev/parallel-raytracing/build/CMakeFiles/edit_cache.dir
+/home/lor3n/Dev/parallel-raytracing/build/CMakeFiles/rebuild_cache.dir
