@@ -53,10 +53,7 @@ Intersection Renderer::SceneRaycast(const Scene& scene, Ray& r){
 
 vec3 Renderer::Shade(const Scene& scene, Ray& ray){
 
-    //Intersection hit = SceneRaycast(scene, ray);
-    Intersection hit;
-    
-    SceneRaycastCUDA<<<1,1>>>(scene, ray, hit);
+    Intersection hit = SceneRaycast(scene, ray);
 
     if(!hit.hasHit)
         return vec3{0,20,80};

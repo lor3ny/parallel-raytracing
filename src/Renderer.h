@@ -2,7 +2,6 @@
 
 #include "vec3.h"
 #include "Scene.h"
-#include "CUDA_Renderer.h"
 
 
 class Camera {
