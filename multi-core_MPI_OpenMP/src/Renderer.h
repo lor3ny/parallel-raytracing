@@ -2,6 +2,7 @@
 
 #include "vec3.h"
 #include "Scene.h"
+#include <omp.h>
 
 
 class Camera {

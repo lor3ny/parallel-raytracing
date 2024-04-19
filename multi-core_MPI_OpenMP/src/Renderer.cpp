@@ -63,6 +63,8 @@ vec3 Renderer::Shade(const Scene& scene, Ray& ray){
 
 
 void Renderer::Render(unsigned char* buffer, Scene& scene){
+
+    //#pragma omp parallel for num_threads(2)
     for(int i = 0; i < batchSize; i++){
         for(int j = 0; j < cam->GetWidth(); j++){
 

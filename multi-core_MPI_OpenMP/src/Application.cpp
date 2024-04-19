@@ -25,15 +25,15 @@ int main(int argc, char *argv[]){
     MPI_Comm_rank(MPI_COMM_WORLD, &id);
     MPI_Comm_size(MPI_COMM_WORLD, &count);
 
-    int batchSize = HEIGHT/count;
+    int batchSize = HEIGHT/(count);
     unsigned char* smallBuff = new unsigned char[WIDTH*batchSize*3];
     unsigned char* bigBuff;
 
     Scene scene;
     //scene.LoadScene("../test/cornell_box.obj", "../test/");
-    scene.LoadScene("../test/cornell_box.obj", "../test/");
+    scene.LoadScene("../test/blender-3.5-splash.obj", "../test/");
 
-    vec3 origin = {250,250,-1000};
+    vec3 origin = {250,250,-600};
     Camera camera(origin, 1000, WIDTH, HEIGHT);
 
     int camera_start = batchSize * id;
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
 
         cout << id << ": Data received." << endl;
 
-    } else {
+    } else if (id < count){
 
         cout << id << ": Rendering started." << endl;
 
