@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/build",
+  "command": "/usr/bin/g++  -I/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/libs -I/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/libs/tiny_obj_loader -I/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/libs/stb -isystem /usr/local/cuda-12/include -g -o CMakeFiles/renderer.dir/src/Scene.cpp.o -c /home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/src/Scene.cpp",
+  "file": "/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/src/Scene.cpp"
+},
+{
+  "directory": "/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/build",
+  "command": "/usr/local/cuda-12/bin/nvcc -forward-unknown-to-host-compiler  -I/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/libs -I/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/libs/tiny_obj_loader -I/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/libs/stb -isystem=/usr/local/cuda-12/include -g -x cu -c /home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/src/main.cu -o CMakeFiles/renderer.dir/src/main.cu.o",
+  "file": "/home/lor3n/Dev/parallel-raytracing/single-GPU_CUDA/src/main.cu"
+}
+]
