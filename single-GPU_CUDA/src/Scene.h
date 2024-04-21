@@ -33,6 +33,7 @@ class triangle {
 
 class shape {
     public:
+
         triangle* triangles;
         vec3 color;
         int trianglesCount;
@@ -47,28 +48,25 @@ class shape {
         void freeTriangles(){
              delete [] triangles;
         }
+
+        __host__ __device__
+        int ShapeSize(){
+            return trianglesCount*sizeof(triangle) + sizeof(shape);
+        }
         
 };
 
 class Scene {
 
-    private:
-        int LoadTinyObjScene(const string& path, const string& materials_path);
-
     public:
-
-        tinyobj::attrib_t attrib;
-        vector<tinyobj::material_t> materials;
-        vector<tinyobj::shape_t> shapes;
 
         shape* raw_shapes;
 
         int shapesCount;
 
+
         Scene() {};
         ~Scene(){
-            this->materials.clear();
-            this->shapes.clear();
 
             for(int i = 0; i < shapesCount; i++){
                  delete [] raw_shapes[i].triangles;
@@ -77,6 +75,19 @@ class Scene {
             delete [] raw_shapes;
         }
 
-    int LoadScene(const string& path, const string& materials_path);
+        int LoadScene(const string& path, const string& materials_path);
+
+        __host__ __device__ 
+        int SceneSize(){
+
+
+            int ShapesSize = 0;
+
+            for(int i = 0; i<shapesCount; i++){
+                ShapesSize += raw_shapes[i].ShapeSize();
+            }
+    
+            return ShapesSize + sizeof(Scene);
+        }
 
 };

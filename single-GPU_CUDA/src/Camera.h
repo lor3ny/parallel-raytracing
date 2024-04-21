@@ -4,16 +4,13 @@
 
 class Camera {
 
-    private:
+    public:
 
         vec3 origin;
         float frameDistance;
 
-    public:
-
         int frameWidth;
         int frameHeight;
-
 
         Camera(vec3& o, float d, int width, int height) 
             : origin(o), frameDistance(d), frameWidth(width), frameHeight(height) {}   

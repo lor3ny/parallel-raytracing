@@ -10,6 +10,7 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 #include "vec3.h"
+#include <stdio.h>
 
 
 #define WIDTH 1920
@@ -17,10 +18,18 @@
 
 using namespace std;
 
-#define checkCudaErrors(val) check_cuda( (val), #val, __FILE__, __LINE__ )
+static void HandleError( cudaError_t err,
+                         const char *file,
+                         int line ) {
+    if (err != cudaSuccess) {
+        printf( "%s in %s at line %d\n", cudaGetErrorString( err ),
+                file, line );
+        exit( EXIT_FAILURE );
+    }
+}
+#define HANDLE_ERROR( err ) (HandleError( err, __FILE__, __LINE__ ))
 
-__device__
-static bool intersectTriangle(Ray& r, vec3& p0, vec3& p1, vec3& p2, float& dist){ //, vec2& pos){
+__device__ bool intersectTriangle(Ray& r, vec3& p0, vec3& p1, vec3& p2, float& dist){ //, vec2& pos){
 
     const double EPSILON = 0.000001; // error i think
 
@@ -53,8 +62,7 @@ static bool intersectTriangle(Ray& r, vec3& p0, vec3& p1, vec3& p2, float& dist)
     return t > EPSILON; 
 }
 
-__device__
-Intersection SceneRaycast(const Scene& scene, Ray& r){
+__device__ Intersection SceneRaycast(const Scene& scene, Ray& r){
     
     Intersection isec;
     isec.hasHit = false;
@@ -83,8 +91,7 @@ Intersection SceneRaycast(const Scene& scene, Ray& r){
     return isec;
 }
 
-__device__
-vec3 Shade(const Scene& scene, Ray& ray){
+__device__ vec3 Shade(const Scene& scene, Ray& ray){
 
     Intersection hit = SceneRaycast(scene, ray);
 
@@ -94,8 +101,9 @@ vec3 Shade(const Scene& scene, Ray& ray){
     return hit.color * dot(-ray.dir, hit.normal);
 }
 
-__global__
-void Render(unsigned char* buffer, Scene& scene, Camera& cam){
+__global__ void Render(unsigned char* buffer, Scene& scene, Camera& cam){
+
+    printf("info: %d\n", scene.SceneSize());
 
     for(int i = 0; i < cam.frameHeight; i++){
         for(int j = 0; j < cam.frameWidth; j++){
@@ -105,7 +113,7 @@ void Render(unsigned char* buffer, Scene& scene, Camera& cam){
 
             vec3 pixelValue = Shade(scene, qRay);
 
-            //std::cout << pixelValue.x() << " - " << pixelValue.y() << " - " << pixelValue.z() << endl;
+            printf("%f - %f - %f\n", pixelValue.x(), pixelValue.y(), pixelValue.z());
 
             buffer[(i * cam.frameWidth + j) * 3 + 0] = pixelValue.r() * 255;
             buffer[(i * cam.frameWidth + j) * 3 + 1] = pixelValue.g() * 255;
@@ -121,26 +129,42 @@ int main(int argc, char *argv[]){
     Scene* scene;
     Camera* cam;
 
-    (*scene).LoadScene("../test/cornell_box.obj", "../test/");
+    Scene tmpScene;
+    tmpScene.LoadScene("../test/cornell_box.obj", "../test/");
+
     vec3 origin = {250,250,-1000};
-    *cam = Camera(origin, 1000, WIDTH, HEIGHT);
+    Camera tmpCam(origin, 1000, WIDTH, HEIGHT);
 
     cout << "Scene Loaded, Rendering started." << endl;
 
-    cudaMalloc(&bigBuff, WIDTH*HEIGHT*3*sizeof(char));
-    cudaMalloc(&scene, sizeof(Scene)); //Needs an internal sizeof function
-    cudaMalloc(&cam, sizeof(Camera)); 
+    // There is a problem in the data initilization and in free section (maybe are related)
+
+    HANDLE_ERROR(cudaMallocManaged(&bigBuff, WIDTH*HEIGHT*3*sizeof(unsigned char)));
+    HANDLE_ERROR(cudaMallocManaged(&scene, tmpScene.SceneSize())); 
+    HANDLE_ERROR(cudaMallocManaged(&cam, sizeof(Camera))); 
+
+    cam = &tmpCam;
+    scene = &tmpScene;
 
     Render<<<1,1>>>(bigBuff, *scene, *cam);
 
-    cudaFree(&cam);
-    cudaFree(&scene);
-    cudaFree(&bigBuff);
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        printf("CUDA Error: %s\n", cudaGetErrorName(err));
+        return 1;
+    }
 
-    cudaFree(&bigBuff);
+    cudaDeviceSynchronize();
 
     cout << "Rendering done." << endl;
 
-    stbi_write_png("res.png", WIDTH, HEIGHT, 3, bigBuff, WIDTH*3);
-    
+    HANDLE_ERROR(cudaFree(cam));
+    HANDLE_ERROR(cudaFree(scene));
+    HANDLE_ERROR(cudaFree(bigBuff));
+
+    cout << "Free done." << endl;
+
+    stbi_write_png("res.png", WIDTH, HEIGHT, 3, bigBuff, WIDTH*3); //goes in segmentation
+
+    delete [] bigBuff;
 }

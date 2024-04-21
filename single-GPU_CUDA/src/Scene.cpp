@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-int Scene::LoadTinyObjScene(const string& path, const string& materials_path){
+int Scene::LoadScene(const string& path, const string& materials_path){
 
     tinyobj::ObjReaderConfig reader_config;
     reader_config.mtl_search_path = materials_path;
@@ -20,16 +20,9 @@ int Scene::LoadTinyObjScene(const string& path, const string& materials_path){
         std::cerr << reader.Warning() << std::endl;
     }
 
-    attrib = reader.GetAttrib();
-    shapes = reader.GetShapes();
-    materials = reader.GetMaterials();
-
-    return 0;
-}
-
-int Scene::LoadScene(const string& path, const string& materials_path){
-
-    LoadTinyObjScene(path, materials_path);
+    tinyobj::attrib_t attrib = reader.GetAttrib();
+    vector<tinyobj::material_t> materials = reader.GetMaterials();
+    vector<tinyobj::shape_t> shapes = reader.GetShapes();
 
     raw_shapes = new shape[shapes.size()];
     shapesCount = shapes.size();
