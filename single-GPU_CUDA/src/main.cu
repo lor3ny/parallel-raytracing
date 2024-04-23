@@ -71,15 +71,19 @@ __device__ Intersection SceneRaycast(const Scene& scene, Ray& r){
 
         for (int t = 0; t < scene.raw_shapes[s].trianglesCount; t++) {
 
-            float dist;
+            
+            float dist = 0;
             //glm::vec2 position;
             bool rayHit = intersectTriangle(r, scene.raw_shapes[s].triangles[t].vertices[0], scene.raw_shapes[s].triangles[t].vertices[1], scene.raw_shapes[s].triangles[t].vertices[2], dist);
+        
             
             if(!rayHit)
                 continue;
 
+            
             if(dist>isec.dist && isec.dist > 0)
-                    continue;
+                continue;
+
 
             isec.hasHit = true;
             isec.dist = dist;
@@ -103,7 +107,8 @@ __device__ vec3 Shade(const Scene& scene, Ray& ray){
 
 __global__ void Render(unsigned char* buffer, Scene& scene, Camera& cam){
 
-    printf("info: %d\n", scene.SceneSize());
+    //printf("info: %d\n", scene.SceneSize());
+    //printf("%d - %d\n", cam.frameHeight, cam.frameWidth);
 
     for(int i = 0; i < cam.frameHeight; i++){
         for(int j = 0; j < cam.frameWidth; j++){
@@ -115,9 +120,9 @@ __global__ void Render(unsigned char* buffer, Scene& scene, Camera& cam){
 
             printf("%f - %f - %f\n", pixelValue.x(), pixelValue.y(), pixelValue.z());
 
-            buffer[(i * cam.frameWidth + j) * 3 + 0] = pixelValue.r() * 255;
-            buffer[(i * cam.frameWidth + j) * 3 + 1] = pixelValue.g() * 255;
-            buffer[(i * cam.frameWidth + j) * 3 + 2] = pixelValue.b() * 255;
+            buffer[(i * cam.frameWidth + j) * 3 + 0] = 50; // * 255;
+            buffer[(i * cam.frameWidth + j) * 3 + 1] = 50; // * 255;
+            buffer[(i * cam.frameWidth + j) * 3 + 2] = 50; // * 255;
 
         }
     }
@@ -125,46 +130,44 @@ __global__ void Render(unsigned char* buffer, Scene& scene, Camera& cam){
 
 int main(int argc, char *argv[]){
 
-    unsigned char* bigBuff = new unsigned char[WIDTH*HEIGHT*3];
-    Scene* scene;
-    Camera* cam;
 
-    Scene tmpScene;
-    tmpScene.LoadScene("../test/cornell_box.obj", "../test/");
+    unsigned char* d_buff;
+    Scene* d_scene;
+    Camera* d_cam;
+
+    unsigned char* h_buff = new unsigned char[WIDTH*HEIGHT*3];
+
+    Scene h_scene;
+    h_scene.LoadScene("../test/cornell_box.obj", "../test/");
 
     vec3 origin = {250,250,-1000};
-    Camera tmpCam(origin, 1000, WIDTH, HEIGHT);
+    Camera h_cam(origin, 1000, WIDTH, HEIGHT);
 
     cout << "Scene Loaded, Rendering started." << endl;
 
     // There is a problem in the data initilization and in free section (maybe are related)
 
-    HANDLE_ERROR(cudaMallocManaged(&bigBuff, WIDTH*HEIGHT*3*sizeof(unsigned char)));
-    HANDLE_ERROR(cudaMallocManaged(&scene, tmpScene.SceneSize())); 
-    HANDLE_ERROR(cudaMallocManaged(&cam, sizeof(Camera))); 
+    HANDLE_ERROR(cudaMalloc(&d_buff, WIDTH*HEIGHT*3*sizeof(unsigned char)));
+    HANDLE_ERROR(cudaMalloc(&d_scene, h_scene.SceneSize())); 
+    HANDLE_ERROR(cudaMalloc(&d_cam, sizeof(Camera))); 
 
-    cam = &tmpCam;
-    scene = &tmpScene;
-
-    Render<<<1,1>>>(bigBuff, *scene, *cam);
-
-    cudaError_t err = cudaGetLastError();
-    if (err != cudaSuccess) {
-        printf("CUDA Error: %s\n", cudaGetErrorName(err));
-        return 1;
-    }
-
+    HANDLE_ERROR(cudaMemcpy(d_cam, &h_cam, sizeof(Camera), cudaMemcpyHostToDevice));
+    HANDLE_ERROR(cudaMemcpy(d_scene, &h_scene, h_scene.SceneSize(), cudaMemcpyHostToDevice));
     cudaDeviceSynchronize();
+
+    Render<<<1,1>>>(d_buff, *d_scene, *d_cam);
+
+    HANDLE_ERROR(cudaMemcpy(h_buff, d_buff, WIDTH*HEIGHT*3*sizeof(unsigned char), cudaMemcpyDeviceToHost));
 
     cout << "Rendering done." << endl;
 
-    HANDLE_ERROR(cudaFree(cam));
-    HANDLE_ERROR(cudaFree(scene));
-    HANDLE_ERROR(cudaFree(bigBuff));
+    HANDLE_ERROR(cudaFree(d_cam));
+    HANDLE_ERROR(cudaFree(d_scene));
+    HANDLE_ERROR(cudaFree(d_buff));
 
     cout << "Free done." << endl;
 
-    stbi_write_png("res.png", WIDTH, HEIGHT, 3, bigBuff, WIDTH*3); //goes in segmentation
+    stbi_write_png("res.png", WIDTH, HEIGHT, 3, h_buff, WIDTH*3); //goes in segmentation
 
-    delete [] bigBuff;
+    delete [] h_buff;
 }
