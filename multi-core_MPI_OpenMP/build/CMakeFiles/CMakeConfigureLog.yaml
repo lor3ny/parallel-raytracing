@@ -192,3 +192,271 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-JqPyUT"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-JqPyUT"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-JqPyUT'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9b83a/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_9b83a.dir/build.make CMakeFiles/cmTC_9b83a.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-JqPyUT'
+        Building CXX object CMakeFiles/cmTC_9b83a.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_9b83a.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-JqPyUT/test_mpi.cpp
+        Linking CXX executable cmTC_9b83a
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9b83a.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_9b83a.dir/test_mpi.cpp.o -o cmTC_9b83a  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-JqPyUT'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-6Iq2UL"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-6Iq2UL"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-6Iq2UL'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a486c/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_a486c.dir/build.make CMakeFiles/cmTC_a486c.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-6Iq2UL'
+        Building CXX object CMakeFiles/cmTC_a486c.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_a486c.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-6Iq2UL/test_mpi.cpp
+        Linking CXX executable cmTC_a486c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a486c.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_a486c.dir/test_mpi.cpp.o -o cmTC_a486c  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-6Iq2UL'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-e9rvy5"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-e9rvy5"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-e9rvy5'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_796e1/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_796e1.dir/build.make CMakeFiles/cmTC_796e1.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-e9rvy5'
+        Building CXX object CMakeFiles/cmTC_796e1.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_796e1.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-e9rvy5/test_mpi.cpp
+        Linking CXX executable cmTC_796e1
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_796e1.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_796e1.dir/test_mpi.cpp.o -o cmTC_796e1  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-e9rvy5'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-sHguLl"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-sHguLl"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-sHguLl'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_127ad/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_127ad.dir/build.make CMakeFiles/cmTC_127ad.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-sHguLl'
+        Building CXX object CMakeFiles/cmTC_127ad.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_127ad.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-sHguLl/test_mpi.cpp
+        Linking CXX executable cmTC_127ad
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_127ad.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_127ad.dir/test_mpi.cpp.o -o cmTC_127ad  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-sHguLl'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-eKaGK0"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-eKaGK0"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-eKaGK0'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f256b/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f256b.dir/build.make CMakeFiles/cmTC_f256b.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-eKaGK0'
+        Building CXX object CMakeFiles/cmTC_f256b.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_f256b.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-eKaGK0/test_mpi.cpp
+        Linking CXX executable cmTC_f256b
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f256b.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_f256b.dir/test_mpi.cpp.o -o cmTC_f256b  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-eKaGK0'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-OqfVvy"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-OqfVvy"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-OqfVvy'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9c528/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_9c528.dir/build.make CMakeFiles/cmTC_9c528.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-OqfVvy'
+        Building CXX object CMakeFiles/cmTC_9c528.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_9c528.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-OqfVvy/test_mpi.cpp
+        Linking CXX executable cmTC_9c528
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9c528.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_9c528.dir/test_mpi.cpp.o -o cmTC_9c528  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-OqfVvy'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-g6UWC0"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-g6UWC0"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-g6UWC0'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e7b17/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_e7b17.dir/build.make CMakeFiles/cmTC_e7b17.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-g6UWC0'
+        Building CXX object CMakeFiles/cmTC_e7b17.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_e7b17.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-g6UWC0/test_mpi.cpp
+        Linking CXX executable cmTC_e7b17
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7b17.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_e7b17.dir/test_mpi.cpp.o -o cmTC_e7b17  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-g6UWC0'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "CMakeLists.txt:5 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-LHyz95"
+      binary: "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-LHyz95"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-LHyz95'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_49c34/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_49c34.dir/build.make CMakeFiles/cmTC_49c34.dir/build
+        gmake[1]: Entering directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-LHyz95'
+        Building CXX object CMakeFiles/cmTC_49c34.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_49c34.dir/test_mpi.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-LHyz95/test_mpi.cpp
+        Linking CXX executable cmTC_49c34
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_49c34.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_49c34.dir/test_mpi.cpp.o -o cmTC_49c34  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/CMakeScratch/TryCompile-LHyz95'
+        
+      exitCode: 0
+...

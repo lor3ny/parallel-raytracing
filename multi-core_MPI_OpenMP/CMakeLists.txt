@@ -8,12 +8,14 @@ find_package(MPI REQUIRED)
 #set(CMAKE_CXX_COMPILER ${MPI_CXX_COMPILER})
 
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 file(GLOB SOURCE_FILES 
     "${SRC_DIR}/*.cpp"
     "${SRC_DIR}/*.cu"
 )
 
+set(CMAKE_BUILD_TYPE RELEASE)
 
 add_executable(renderer ${SOURCE_FILES})
 

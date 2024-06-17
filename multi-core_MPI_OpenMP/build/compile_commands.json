@@ -1,19 +1,19 @@
 [
 {
   "directory": "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build",
-  "command": "/usr/bin/c++  -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -g -std=gnu++17 -o CMakeFiles/renderer.dir/src/Application.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Application.cpp",
+  "command": "/usr/bin/c++  -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -O3 -std=gnu++17 -o CMakeFiles/renderer.dir/src/Application.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Application.cpp",
   "file": "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Application.cpp",
   "output": "CMakeFiles/renderer.dir/src/Application.cpp.o"
 },
 {
   "directory": "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build",
-  "command": "/usr/bin/c++  -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -g -std=gnu++17 -o CMakeFiles/renderer.dir/src/Renderer.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Renderer.cpp",
+  "command": "/usr/bin/c++  -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -O3 -std=gnu++17 -o CMakeFiles/renderer.dir/src/Renderer.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Renderer.cpp",
   "file": "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Renderer.cpp",
   "output": "CMakeFiles/renderer.dir/src/Renderer.cpp.o"
 },
 {
   "directory": "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build",
-  "command": "/usr/bin/c++  -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -g -std=gnu++17 -o CMakeFiles/renderer.dir/src/Scene.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Scene.cpp",
+  "command": "/usr/bin/c++  -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -O3 -std=gnu++17 -o CMakeFiles/renderer.dir/src/Scene.cpp.o -c /home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Scene.cpp",
   "file": "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/src/Scene.cpp",
   "output": "CMakeFiles/renderer.dir/src/Scene.cpp.o"
 }

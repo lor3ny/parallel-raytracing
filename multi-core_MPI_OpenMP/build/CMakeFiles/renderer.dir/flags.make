@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/tiny_obj_loader -I/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/libs/stb -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi
 
-CXX_FLAGS = -g -std=gnu++17
+CXX_FLAGS = -O3 -std=gnu++17
 

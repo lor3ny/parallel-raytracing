@@ -64,8 +64,15 @@ vec3 Renderer::Shade(const Scene& scene, Ray& ray){
 
 void Renderer::Render(unsigned char* buffer, Scene& scene){
 
+    // about 315 seconds on laptop with 4 cores and no OpenMP
+    // Try Galileo with 1 node 4 cores
+    // Try Galileo multiple nodes 1 core each without OpenMP
+    // Try Galileo multiple nodes 1 core each with OpenMP
+
+
     //#pragma omp parallel for num_threads(2)
     for(int i = 0; i < batchSize; i++){
+        std::cout << i << std::endl;
         for(int j = 0; j < cam->GetWidth(); j++){
 
             int p_x = start_index+i;
