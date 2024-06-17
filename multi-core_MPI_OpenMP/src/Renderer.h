@@ -55,7 +55,7 @@ class Renderer {
 
         void Render(unsigned char* buffer, Scene& scene);
 
-        __host__ __device__
+        
         static bool intersectTriangle(Ray& r, vec3& p0, vec3& p1, vec3& p2, float& dist){ //, vec2& pos){
     
             const double EPSILON = 0.000001; // error i think

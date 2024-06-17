@@ -1,3 +1,3 @@
-/home/lor3n/Dev/parallel-raytracing/build/CMakeFiles/renderer.dir
-/home/lor3n/Dev/parallel-raytracing/build/CMakeFiles/edit_cache.dir
-/home/lor3n/Dev/parallel-raytracing/build/CMakeFiles/rebuild_cache.dir
+/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/renderer.dir
+/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/edit_cache.dir
+/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build/CMakeFiles/rebuild_cache.dir

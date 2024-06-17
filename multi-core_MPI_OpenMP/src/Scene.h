@@ -5,7 +5,6 @@
 
 #include <string>
 #include <vector>
-#include <cuda_runtime.h>
 
 
 using namespace std;
@@ -18,8 +17,8 @@ class triangle {
         vec3 normal;
         vec3 pos;
 
-        __host__ __device__ triangle() {}
-        __host__ __device__ triangle(vec3& p0, vec3& p1, vec3& p2, vec3& nor) {
+         triangle() {}
+         triangle(vec3& p0, vec3& p1, vec3& p2, vec3& nor) {
             vertices[0] = p0;
             vertices[1] = p1;
             vertices[2] = p2;
@@ -37,8 +36,8 @@ class shape {
         vec3 color;
         int trianglesCount;
 
-        __host__ __device__ shape() {}
-        __host__ __device__ shape(int size) {
+         shape() {}
+         shape(int size) {
             trianglesCount = size;
             triangles = new triangle[size];
         }

@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "renderer::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-renderer-Debug-8e582fc2009b392bd8ea.json",
+					"jsonFile" : "target-renderer-Debug-101e16ac7ebe1055e2a2.json",
 					"name" : "renderer",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/lor3n/Dev/parallel-raytracing/build",
-		"source" : "/home/lor3n/Dev/parallel-raytracing"
+		"build" : "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP/build",
+		"source" : "/home/lorenzo/Dev/parallel_raytracing/multi-core_MPI_OpenMP"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 3
+		"minor" : 6
 	}
 }
